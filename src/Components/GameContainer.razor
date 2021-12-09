@@ -1,0 +1,28 @@
+@if (gameContainer == null) {
+	<h1>Loading...</h1>
+}
+else {
+	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick">
+		<Ball Model="@gameContainer.Ball" />
+	</div>
+}
+
+@code {
+	GameManager? gameContainer { get; set; }
+
+	string gameContainerCss => $"width: {gameContainer?.dimensions[0]}px; height: {gameContainer?.dimensions[1]}px";
+
+	protected override void OnInitialized()
+	{
+		gameContainer = new GameManager();
+		
+		gameContainer.MainLoopCompleted += (o,e) => StateHasChanged();
+	}
+
+	void HandleClick() {
+		if (gameContainer?.IsRunning == false)
+			gameContainer.StartGame();
+		else
+			gameContainer?.StopGame();
+	}
+}

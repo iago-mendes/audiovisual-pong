@@ -7,9 +7,11 @@ namespace audiovisual_pong.Models
 
 		public Dimensions containerDimensions = new Dimensions(1000, 500);
 		public BallModel Ball { get; private set; }
+		public WallModel Wall { get; private set; }
 
 		public GameManager() {
 			Ball = new BallModel(containerDimensions);
+			Wall = new WallModel(containerDimensions.y);
 		}
 
 		private void ResetGameObjects() {
@@ -30,10 +32,11 @@ namespace audiovisual_pong.Models
 		{
 			while(IsRunning)
 			{
+				Wall.handleCollision(Ball); //put inside check function
 				Ball.Move();
 
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
-				await Task.Delay(20); // 20 ms
+				await Task.Delay(100); // 20 ms
 			}
 		}
 	}

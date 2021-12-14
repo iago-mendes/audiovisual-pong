@@ -3,4 +3,7 @@
 
 	position: relative;
 	margin: 0 auto;
+
+	border-top: brown 5px solid;
+	border-bottom: brown 5px solid;
 }

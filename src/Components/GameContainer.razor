@@ -3,14 +3,14 @@
 }
 else {
 	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick">
-		<Ball Model="@gameContainer.Ball" />
+		<Ball Model="gameContainer.Ball" />
 	</div>
 }
 
 @code {
 	GameManager? gameContainer { get; set; }
 
-	string gameContainerCss => $"width: {gameContainer?.dimensions[0]}px; height: {gameContainer?.dimensions[1]}px";
+	string gameContainerCss => $"width: {gameContainer?.containerDimensions.x}px; height: {gameContainer?.containerDimensions.y}px";
 
 	protected override void OnInitialized()
 	{

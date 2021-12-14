@@ -2,17 +2,27 @@ namespace audiovisual_pong.Models
 {
 	public class BallModel
 	{
-		public float[] position { get; private set; }
-		public float[] velocity { get; private set; }
+		public Dimensions position { get; private set; }
+		public Dimensions velocity { get; private set; }
 
-		public BallModel(float[] dimensions) {
-			position = new float[2] {dimensions[0] / 2, dimensions[1] /2};
-			velocity = new float[2] {1, 1};
+		public BallModel(Dimensions containerDimensions) {
+			position = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
+			velocity = new Dimensions(1, 1);
 		}
 
 		public void Move() {
-			position[0] += velocity[0]; // x
-			position[1] += velocity[1]; // y
+			position.x += velocity.x;
+			position.y += velocity.y;
+		}
+	}
+
+	public class Dimensions {
+		public float x { get; set; }
+		public float y { get; set; }
+
+		public Dimensions(float x, float y) {
+			this.x = x;
+			this.y = y;
 		}
 	}
 }

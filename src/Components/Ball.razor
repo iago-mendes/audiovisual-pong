@@ -4,5 +4,5 @@
 
 @code {
 	[Parameter] public BallModel? Model { get; set; }
-	string ballCss => $"left: {Model?.position[0]}px; top: {Model?.position[1]}px";
+	string ballCss => $"left: {Model?.position.x}px; top: {Model?.position.y}px";
 }

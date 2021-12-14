@@ -5,15 +5,15 @@ namespace audiovisual_pong.Models
 		public bool IsRunning { get; private set; } = false;
 		public event EventHandler? MainLoopCompleted;
 
-		public float[] dimensions = {1000, 500};
+		public Dimensions containerDimensions = new Dimensions(1000, 500);
 		public BallModel Ball { get; private set; }
 
 		public GameManager() {
-			Ball = new BallModel(dimensions);
+			Ball = new BallModel(containerDimensions);
 		}
 
 		private void ResetGameObjects() {
-			Ball = new BallModel(dimensions);
+			Ball = new BallModel(containerDimensions);
 		}
 
 		public void StartGame() {

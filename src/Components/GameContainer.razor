@@ -3,8 +3,15 @@
 }
 else {
 	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick">
-		<div class="rect"></div>
-		<div class="rect"></div>
+		<div class="rect border"></div>	
+		<div class="middle border">
+			<div class="square">
+			</div>
+			<div class="square2">
+			</div>
+		</div>
+		<div class="line"></div>	
+		<div class="rect border"></div>
 		<Ball Model="gameContainer.Ball" />
 	</div>
 }

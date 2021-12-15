@@ -6,4 +6,13 @@
 	
 	border-top: brown 5px solid;
 	border-bottom: brown 5px solid;
+
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	grid-template-rows: 1fr 1fr;
+}
+
+.rect {
+	border: 1px solid brown;
 }

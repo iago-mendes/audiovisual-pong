@@ -1,11 +1,11 @@
 .game-container {
-	background-color: rgba(255, 255, 255, 0.096);
+	background-color: var(--color-background);
 
 	position: relative;
 	margin: 0 auto;
 	
-	/*border-top: brown 5px solid;
-	border-bottom: brown 5px solid;*/
+	border-top: var(--color-wall) 5px solid;
+	border-bottom: var(--color-wall) 5px solid;
 
 	display: grid;
 	justify-content: center;
@@ -17,33 +17,23 @@
 .middle {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	border: 3px solid brown;
+	border: 3px solid var(--color-stroke);
 	border-radius: 15%;
 	border-style: dashed;
 	margin: 50px;
 }
 
 .square2 {
-	border-left: 3px solid brown;
-}
-
-.border {
-	
-	/*border-bottom: 1px solid brown;*/
-	
+	border-left: 3px solid var(--color-stroke);
 }
 
 .rect1 {
-	/*border: 1px solid blue;*/
 	display: grid;
-	/*grid-template-columns: 1fr;*/
 	justify-content: end;
 	align-content: center;
 }
 
 .rect2 {
-	/*border: 1px solid blue;*/
-	/*grid-template-columns: 1fr;*/
 	justify-content: start;
 	align-content: center;
 }

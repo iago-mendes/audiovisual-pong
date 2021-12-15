@@ -1,8 +1,11 @@
 @if (Model != null) {
-	<div class="ball" style="@ballCss" ></div>
+	<div class="@ballClass" style="@ballCss" ></div>
 }
 
 @code {
+	[Parameter] public bool IsRunning { get; set; }
 	[Parameter] public BallModel? Model { get; set; }
+
 	string ballCss => $"left: {Model?.position.x}px; top: {Model?.position.y}px";
+	string ballClass => IsRunning ? "ball spin" : "ball";
 }

@@ -6,6 +6,8 @@ namespace audiovisual_pong.Models
 		public double left { get; private set; }
 		public double right { get; private set; }
 
+		public double velocity { get; private set; } = 10;
+
 		public PaddleModel(Dimensions leftTopCornerPosition, double width, double height) {
 			top = leftTopCornerPosition.y;
 			left = leftTopCornerPosition.x;

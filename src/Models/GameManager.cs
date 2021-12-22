@@ -82,11 +82,17 @@ namespace audiovisual_pong.Models
 		}
 
 		public void MoveUserPaddleUp() {
-			UserPaddle.Move(-10);
+			if (UserPaddle.top - UserPaddle.velocity > 0)
+				UserPaddle.Move(-1 * UserPaddle.velocity);
+			else if (UserPaddle.top > 0)
+				UserPaddle.Move(-1 * UserPaddle.top);
 		}
 
 		public void MoveUserPaddleDown() {
-			UserPaddle.Move(10);
+			if (UserPaddle.bottom + UserPaddle.velocity < containerDimensions.y)
+				UserPaddle.Move(UserPaddle.velocity);
+			else if (UserPaddle.bottom < containerDimensions.y)
+				UserPaddle.Move(containerDimensions.y - UserPaddle.bottom);
 		}
 	}
 }

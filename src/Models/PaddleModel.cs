@@ -37,6 +37,9 @@ namespace audiovisual_pong.Models
 			// maybe both can be false => bug with ball movement
 		}
 
-		//abstract public void Move();
+		public void Move(double deltaY) {
+			top += deltaY;
+			bottom += deltaY;
+		}
 	}
 }

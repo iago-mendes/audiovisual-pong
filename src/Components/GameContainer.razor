@@ -2,7 +2,7 @@
 	<h1>Loading...</h1>
 }
 else {
-	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick">
+	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick" tabindex="0" @onkeydown="HandleKeyPress">
 		<div class="rect border"></div>	
 		<div class="middle border">
 			<div class="square">
@@ -36,5 +36,13 @@ else {
 			gameContainer.StartGame();
 		else
 			gameContainer?.StopGame();
+	}
+
+	void HandleKeyPress(KeyboardEventArgs e)
+	{
+		if (e.Key == "ArrowUp")
+			gameContainer?.MoveUserPaddleUp();
+		if (e.Key == "ArrowDown")
+			gameContainer?.MoveUserPaddleDown();
 	}
 }

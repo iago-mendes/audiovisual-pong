@@ -10,7 +10,7 @@ namespace audiovisual_pong.Models
 		public BallModel(Dimensions containerDimensions) {
 			this.containerDimensions = containerDimensions;
 			position = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
-			velocity = new Dimensions(25, 0);
+			velocity = new Dimensions(25, 20);
 			radius = 25;
 		}
 

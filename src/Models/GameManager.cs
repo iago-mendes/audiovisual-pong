@@ -34,6 +34,23 @@ namespace audiovisual_pong.Models
 
 		private void ResetGameObjects() {
 			Ball = new BallModel(containerDimensions);
+			Wall = new WallModel(containerDimensions.y);
+
+			double paddleWidth = 50;
+			double paddleHeight = 200;
+			double paddleDistanceFromBorder = 10;
+
+			Dimensions userPaddlePosition = new Dimensions(
+				containerDimensions.x - paddleDistanceFromBorder - paddleWidth,
+				containerDimensions.y / 2 - paddleHeight / 2
+			);
+			UserPaddle = new PaddleUserModel(userPaddlePosition, paddleWidth, paddleHeight);
+
+			Dimensions computerPaddlePosition = new Dimensions(
+				paddleDistanceFromBorder,
+				containerDimensions.y / 2 - paddleHeight / 2
+			);
+			ComputerPaddle = new PaddleComputerModel(computerPaddlePosition, paddleWidth, paddleHeight);
 		}
 
 		public void StartGame() {
@@ -62,6 +79,14 @@ namespace audiovisual_pong.Models
 			Wall.handleCollision(Ball);
 			UserPaddle.HandleCollision(Ball);
 			ComputerPaddle.HandleCollision(Ball);
+		}
+
+		public void MoveUserPaddleUp() {
+			UserPaddle.Move(-10);
+		}
+
+		public void MoveUserPaddleDown() {
+			UserPaddle.Move(10);
 		}
 	}
 }

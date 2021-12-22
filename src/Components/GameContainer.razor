@@ -1,23 +1,25 @@
-@if (gameContainer == null) {
-	<h1>Loading...</h1>
-}
-else {
+<div class="wall-container">
 	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick" tabindex="0" @onkeydown="HandleKeyPress">
-		<div class="rect border"></div>	
-		<div class="middle border">
-			<div class="square">
-			</div>
-			<div class="square2">
-			</div>
-		</div>
-		<div class="line"></div>	
-		<div class="rect border"></div>
+		@if (gameContainer == null) {
+			<h1>Loading...</h1>
+		}
+		else {
+			<div class="rect border"></div>	
+				<div class="middle border">
+					<div class="square">
+					</div>
+					<div class="square2">
+					</div>
+				</div>
+				<div class="line"></div>	
+				<div class="rect border"></div>
 
-		<Ball Model="gameContainer.Ball" IsRunning="gameContainer.IsRunning" />
-		<Paddle Model="gameContainer.UserPaddle" />
-		<Paddle Model="gameContainer.ComputerPaddle" />
+				<Ball Model="gameContainer.Ball" IsRunning="gameContainer.IsRunning" />
+				<Paddle Model="gameContainer.UserPaddle" />
+				<Paddle Model="gameContainer.ComputerPaddle" />
+		}
 	</div>
-}
+</div>
 
 @code {
 	GameManager? gameContainer { get; set; }

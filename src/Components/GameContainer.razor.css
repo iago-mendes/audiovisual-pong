@@ -2,11 +2,7 @@
 	background-color: var(--color-background);
 
 	position: relative;
-	margin: 0 auto;
 	
-	border-top: var(--color-wall) 5px solid;
-	border-bottom: var(--color-wall) 5px solid;
-
 	display: grid;
 	justify-content: center;
 	align-content: center;
@@ -38,4 +34,14 @@
 .rect2 {
 	justify-content: start;
 	align-content: center;
+}
+
+.wall-container {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	
+	background-color: var(--color-wall);
+	padding: 5px 0;
+	width: fit-content;
 }

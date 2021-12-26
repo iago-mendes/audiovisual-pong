@@ -1,0 +1,10 @@
+.score {
+	position: absolute;
+	bottom: 0.1rem;
+}
+
+.score span {
+	color: red;
+	font-size: 4rem;
+	color: #988BC7;
+}

@@ -10,6 +10,8 @@ namespace audiovisual_pong.Models
 		public WallModel Wall { get; private set; }
 		public PaddleUserModel UserPaddle { get; private set; }
 		public PaddleComputerModel ComputerPaddle { get; private set; }
+		public ScoreModel UserScore { get; private set; }
+		public ScoreModel ComputerScore { get; private set; }
 
 		public GameManager() {
 			Ball = new BallModel(containerDimensions);
@@ -30,6 +32,9 @@ namespace audiovisual_pong.Models
 				containerDimensions.y / 2 - paddleHeight / 2
 			);
 			ComputerPaddle = new PaddleComputerModel(computerPaddlePosition, paddleWidth, paddleHeight);
+
+			UserScore = new ScoreModel();
+			ComputerScore = new ScoreModel();
 		}
 
 		private void ResetGameObjects() {
@@ -51,6 +56,9 @@ namespace audiovisual_pong.Models
 				containerDimensions.y / 2 - paddleHeight / 2
 			);
 			ComputerPaddle = new PaddleComputerModel(computerPaddlePosition, paddleWidth, paddleHeight);
+
+			UserScore.Reset();
+			ComputerScore.Reset();
 		}
 
 		public void StartGame() {
@@ -67,6 +75,7 @@ namespace audiovisual_pong.Models
 		{
 			while(IsRunning)
 			{
+				CheckScores();
 				CheckCollisions();
 				Ball.Move();
 
@@ -79,6 +88,17 @@ namespace audiovisual_pong.Models
 			Wall.handleCollision(Ball);
 			UserPaddle.HandleCollision(Ball);
 			ComputerPaddle.HandleCollision(Ball);
+		}
+
+		private void CheckScores() {
+			if (Ball.position.x + Ball.radius > containerDimensions.x) { // computer scores
+				ComputerScore.Increment();
+				Ball.Center();
+			}
+			else if (Ball.position.x - Ball.radius < 0) { // user scores
+				UserScore.Increment();
+				Ball.Center();
+			}
 		}
 
 		public void MoveUserPaddleUp() {

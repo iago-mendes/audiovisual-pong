@@ -1,0 +1,13 @@
+@if (Model != null) {
+	<div class="score" style="@ballCss" >
+		<span>@Model.value</span>
+	</div>
+}
+
+@code {
+	[Parameter] public ScoreModel? Model { get; set; }
+	[Parameter] public string? side { get; set; } // "left" or "right"
+
+	private double padding = 0.1;
+	private string ballCss => $"{side}: {padding}rem;";
+}

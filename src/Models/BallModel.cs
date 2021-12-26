@@ -32,6 +32,11 @@ namespace audiovisual_pong.Models
 		public void setVelocityX(double x) {
 			velocity.x = x;
 		}
+
+		public void Center() {
+			position = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
+			velocity = new Dimensions(25, 20);
+		}
 	}
 
 	public class Dimensions {

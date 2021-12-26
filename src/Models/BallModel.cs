@@ -49,8 +49,10 @@ namespace audiovisual_pong.Models
 			double minVelocity = 20;
 
 			Random random = new Random();
-			double velocityX = random.NextDouble() * (maxVelocity - minVelocity) + minVelocity;
-			double velocityY = random.NextDouble() * (maxVelocity - minVelocity) + minVelocity;
+			int signX = random.NextDouble() < 0.5 ? -1 : 1;
+			int signY = random.NextDouble() < 0.5 ? -1 : 1;
+			double velocityX = (random.NextDouble() * (maxVelocity - minVelocity) + minVelocity) * signX;
+			double velocityY = (random.NextDouble() * (maxVelocity - minVelocity) + minVelocity) * signY;
 
 			Dimensions velocity = new Dimensions(velocityX, velocityY);
 			return velocity;

@@ -93,11 +93,11 @@ namespace audiovisual_pong.Models
 		private void CheckScores() {
 			if (Ball.position.x + Ball.radius > containerDimensions.x) { // computer scores
 				ComputerScore.Increment();
-				Ball.Center();
+				Ball.MoveToCenter();
 			}
 			else if (Ball.position.x - Ball.radius < 0) { // user scores
 				UserScore.Increment();
-				Ball.Center();
+				Ball.MoveToCenter();
 			}
 		}
 

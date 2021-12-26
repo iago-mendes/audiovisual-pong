@@ -9,9 +9,10 @@ namespace audiovisual_pong.Models
 
 		public BallModel(Dimensions containerDimensions) {
 			this.containerDimensions = containerDimensions;
-			position = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
-			velocity = new Dimensions(25, 20);
 			radius = 25;
+
+			position = getCenter();
+			velocity = getRandomVelocity();
 		}
 
 		public void Move() {
@@ -33,9 +34,26 @@ namespace audiovisual_pong.Models
 			velocity.x = x;
 		}
 
-		public void Center() {
-			position = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
-			velocity = new Dimensions(25, 20);
+		public void MoveToCenter() {
+			position = getCenter();
+			velocity = getRandomVelocity();
+		}
+
+		private Dimensions getCenter() {
+			Dimensions center = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
+			return center;
+		}
+
+		private Dimensions getRandomVelocity() {
+			double maxVelocity = 50;
+			double minVelocity = 20;
+
+			Random random = new Random();
+			double velocityX = random.NextDouble() * (maxVelocity - minVelocity) + minVelocity;
+			double velocityY = random.NextDouble() * (maxVelocity - minVelocity) + minVelocity;
+
+			Dimensions velocity = new Dimensions(velocityX, velocityY);
+			return velocity;
 		}
 	}
 

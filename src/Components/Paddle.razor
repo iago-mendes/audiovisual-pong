@@ -6,5 +6,5 @@
 	[Parameter] public PaddleModel? Model { get; set; }
 
 	string paddleCss =>
-		$"left: {Model?.left}px; width: {Model?.right - Model?.left}px; top: {Model?.top}px; height: {Model?.bottom - Model?.top}px";
+		$"left: {Model?.left/15}rem; width: {(Model?.right - Model?.left)/15}rem; top: {Model?.top/15}rem; height: {(Model?.bottom - Model?.top)/15}rem";
 }

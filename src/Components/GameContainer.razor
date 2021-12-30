@@ -27,7 +27,7 @@
 @code {
 	GameManager? gameContainer { get; set; }
 
-	string gameContainerCss => $"width: {gameContainer?.containerDimensions.x}px; height: {gameContainer?.containerDimensions.y}px";
+	string gameContainerCss => $"width: {gameContainer?.containerDimensions.x/15}rem; height: {gameContainer?.containerDimensions.y/15}rem";
 
 	protected override void OnInitialized()
 	{

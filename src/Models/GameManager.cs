@@ -1,3 +1,4 @@
+
 namespace audiovisual_pong.Models
 {
 	public class GameManager
@@ -5,7 +6,7 @@ namespace audiovisual_pong.Models
 		public bool IsRunning { get; private set; } = false;
 		public event EventHandler? MainLoopCompleted;
 
-		public Dimensions containerDimensions = new Dimensions(1000, 500);
+		public Dimensions containerDimensions;
 		public BallModel Ball { get; private set; }
 		public WallModel Wall { get; private set; }
 		public PaddleUserModel UserPaddle { get; private set; }
@@ -13,7 +14,9 @@ namespace audiovisual_pong.Models
 		public ScoreModel UserScore { get; private set; }
 		public ScoreModel ComputerScore { get; private set; }
 
-		public GameManager() {
+		public GameManager(Dimensions containerDimensions) {
+			this.containerDimensions = containerDimensions;
+
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
 

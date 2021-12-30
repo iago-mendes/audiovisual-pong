@@ -1,3 +1,5 @@
+@inject IJSRuntime JsRuntime
+
 <div class="wall-container">
 	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick" tabindex="0" @onkeydown="HandleKeyPress">
 		@if (gameContainer == null) {
@@ -29,10 +31,12 @@
 
 	string gameContainerCss => $"width: {gameContainer?.containerDimensions.x/15}rem; height: {gameContainer?.containerDimensions.y/15}rem";
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		gameContainer = new GameManager();
-		
+		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
+		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
+
+		gameContainer = new GameManager(containerDimensions);
 		gameContainer.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 

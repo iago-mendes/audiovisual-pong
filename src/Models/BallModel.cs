@@ -7,23 +7,28 @@ namespace audiovisual_pong.Models
 		public Dimensions velocity { get; private set; }
 		public double radius { get; private set; }
 
+		public double top {get; private set; }
+		public double bottom {get; private set; }
+		public double left {get; private set; }
+		public double right {get; private set; }
+
 		public BallModel(Dimensions containerDimensions) {
 			this.containerDimensions = containerDimensions;
 			radius = 25;
-
 			position = getCenter();
+			setSides();
 			velocity = getRandomVelocity();
 		}
 
 		public void Move() {
-			if (position.y - radius + velocity.y < 0)
+			if (top + velocity.y < 0)
 				position.y = radius;
 			else if (position.y + radius + velocity.y > containerDimensions.y)
 				position.y = containerDimensions.y - radius;
 			else
 				position.y += velocity.y;
-			
 			position.x += velocity.x;
+			setSides();
 		}
 
 		public void setVelocityY(double y) {
@@ -42,6 +47,13 @@ namespace audiovisual_pong.Models
 		private Dimensions getCenter() {
 			Dimensions center = new Dimensions(containerDimensions.x / 2, containerDimensions.y / 2);
 			return center;
+		}
+
+		private void setSides() {
+			top = position.y - radius;
+			bottom = position.y + radius;
+			left = position.x - radius;
+			right = position.x + radius;
 		}
 
 		private Dimensions getRandomVelocity() {

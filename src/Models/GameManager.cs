@@ -83,7 +83,7 @@ namespace audiovisual_pong.Models
 				Ball.Move();
 
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
-				await Task.Delay(100); // 100 ms
+				await Task.Delay(90); // 90 ms
 			}
 		}
 

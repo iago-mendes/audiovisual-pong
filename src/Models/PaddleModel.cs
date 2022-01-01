@@ -17,24 +17,28 @@ namespace audiovisual_pong.Models
 		}
 
 		public void HandleCollision(BallModel ball) {
-			bool isBallInside = ball.position.y+ball.radius >= top &&
-				ball.position.y-ball.radius <= bottom &&
-				ball.position.x-ball.radius <= right &&
-				ball.position.x+ball.radius >= left;
+			bool isBallInside = ball.bottom >= top &&
+				ball.top <= bottom &&
+				ball.left <= right &&
+				ball.right >= left;
 			
 			if (!isBallInside)
 				return;
-			
-			bool isOutHorizontal = ball.position.x >= right || ball.position.x <= left;
-			bool isOutVertical = ball.position.y >= bottom || ball.position.y <= top;
 
-			if (isOutHorizontal && isOutVertical) {
+			bool towardsTopBottom = (ball.top - ball.velocity.y >= bottom || ball.bottom - ball.velocity.y <= top);
+			bool towardsSide = (ball.right - ball.velocity.x <= left || ball.left - ball.velocity.x >= right);
+			
+			bool cornerCollision = towardsSide && towardsTopBottom;
+			bool horizontalCollision = towardsSide && !towardsTopBottom;
+			bool verticalCollision = towardsTopBottom && !towardsSide;
+
+			if (cornerCollision) {
 				ball.setVelocityY(ball.velocity.y * -1);
 				ball.setVelocityX(ball.velocity.x * -1);
 			}
-			else if (isOutHorizontal)
+			else if (horizontalCollision)
 				ball.setVelocityX(ball.velocity.x * -1);
-			else if (isOutVertical)
+			else if (verticalCollision)
 				ball.setVelocityY(ball.velocity.y * -1);
 			// maybe both can be false => bug with ball movement
 		}

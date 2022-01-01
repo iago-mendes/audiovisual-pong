@@ -11,7 +11,7 @@ namespace audiovisual_pong.Models
 		}
 
 		public void handleCollision(BallModel ball) {
-			if (ball.position.y-ball.radius <= top || ball.position.y+ball.radius >= bottom)
+			if (ball.top <= top || ball.bottom >= bottom)
 				ball.setVelocityY(ball.velocity.y * -1);
 		}
 	}

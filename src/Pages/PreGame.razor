@@ -1,0 +1,11 @@
+@page "/pre-game"
+@inject NavigationManager NavManager
+
+<h1>Pre-game</h1>
+<button @onclick="handleContinueClick">CONTINUE</button>
+
+@code {
+	void handleContinueClick() {
+		NavManager.NavigateTo("/game");
+	}
+}

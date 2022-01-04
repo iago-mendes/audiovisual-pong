@@ -1,4 +1,11 @@
 ﻿@page "/"
+@inject NavigationManager NavManager
 
 <h1>Home</h1>
-<a href="/game">PLAY</a>
+<button @onclick="handlePlayClick">PLAY</button>
+
+@code {
+	void handlePlayClick() {
+		NavManager.NavigateTo("/pre-game");
+	}
+}

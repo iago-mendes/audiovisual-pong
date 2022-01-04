@@ -3,6 +3,7 @@
 	--color-foreground: #E1E1E6;
 	--color-stroke: #483C67;
 	--color-wall: #44475A;
+	--color-cyan: #78D1E1;
 }
 
 * {
@@ -19,7 +20,7 @@ body {
 }
 
 body, input, textarea, button {
-	font-family: var(--color-foreground);
+	font-family: 'Roboto', sans-serif;
 }
 
 button {

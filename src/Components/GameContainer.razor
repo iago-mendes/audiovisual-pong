@@ -2,7 +2,14 @@
 
 <Menu Game="Model" />
 <div class="wall-container">
-	<div class="game-container" style="@gameContainerCss" tabindex="0" @onkeydown="HandleKeyPress">
+	<div
+		class="game-container"
+		style="@gameContainerCss"
+		tabindex="0"
+		@onkeydown="HandleKeyPress"
+		@ref="gameRef"
+		@onfocusout="FocusOnGameContainer"
+	>
 		@if (Model == null) {
 			<h1>Loading...</h1>
 		}
@@ -32,9 +39,8 @@
 </div>
 
 @code {
-	GameManager? Model { get; set; }
-
 	string gameContainerCss => $"width: {Model?.containerDimensions.x/15}rem; height: {Model?.containerDimensions.y/15}rem";
+	ElementReference gameRef;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -44,12 +50,16 @@
 		Model = new GameManager(containerDimensions, 1 * 60);
 		Model.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
-
-	void HandleStartClick() {
-		if (Model?.IsRunning == false)
-			Model.StartGame();
+	private async void FocusOnGameContainer() {
+		await Task.Delay(10); // 10 ms
+		await JsRuntime.InvokeAsync<bool>("focusOnElement", gameRef);
 	}
-
+	void HandleStartClick() {
+		if (Model?.IsRunning == false) {
+			Model.StartGame();
+			FocusOnGameContainer();
+		}
+	}
 	void HandleKeyPress(KeyboardEventArgs e)
 	{
 		if (e.Key == "ArrowUp")
@@ -57,4 +67,6 @@
 		if (e.Key == "ArrowDown")
 			Model?.MoveUserPaddleDown();
 	}
+
+	GameManager? Model { get; set; }
 }

@@ -2,7 +2,7 @@
 
 <div class="wall-container">
 	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick" tabindex="0" @onkeydown="HandleKeyPress">
-		@if (gameContainer == null) {
+		@if (Model == null) {
 			<h1>Loading...</h1>
 		}
 		else {
@@ -16,42 +16,42 @@
 				<div class="line"></div>	
 				<div class="rect border"></div>
 
-				<Ball Model="gameContainer.Ball" IsRunning="gameContainer.IsRunning" />
-				<Paddle Model="gameContainer.UserPaddle" />
-				<Paddle Model="gameContainer.ComputerPaddle" />
+				<Ball Model="Model.Ball" IsRunning="Model.IsRunning" />
+				<Paddle Model="Model.UserPaddle" />
+				<Paddle Model="Model.ComputerPaddle" />
 
-				<Score Model="gameContainer.UserScore" side="right" />
-				<Score Model="gameContainer.ComputerScore" side="left" />
+				<Score Model="Model.UserScore" side="right" />
+				<Score Model="Model.ComputerScore" side="left" />
 		}
 	</div>
 </div>
 
 @code {
-	GameManager? gameContainer { get; set; }
+	GameManager? Model { get; set; }
 
-	string gameContainerCss => $"width: {gameContainer?.containerDimensions.x/15}rem; height: {gameContainer?.containerDimensions.y/15}rem";
+	string gameContainerCss => $"width: {Model?.containerDimensions.x/15}rem; height: {Model?.containerDimensions.y/15}rem";
 
 	protected override async Task OnInitializedAsync()
 	{
 		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
 		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
 
-		gameContainer = new GameManager(containerDimensions);
-		gameContainer.MainLoopCompleted += (o,e) => StateHasChanged();
+		Model = new GameManager(containerDimensions);
+		Model.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 
 	void HandleClick() {
-		if (gameContainer?.IsRunning == false)
-			gameContainer.StartGame();
+		if (Model?.IsRunning == false)
+			Model.StartGame();
 		else
-			gameContainer?.StopGame();
+			Model?.StopGame();
 	}
 
 	void HandleKeyPress(KeyboardEventArgs e)
 	{
 		if (e.Key == "ArrowUp")
-			gameContainer?.MoveUserPaddleUp();
+			Model?.MoveUserPaddleUp();
 		if (e.Key == "ArrowDown")
-			gameContainer?.MoveUserPaddleDown();
+			Model?.MoveUserPaddleDown();
 	}
 }

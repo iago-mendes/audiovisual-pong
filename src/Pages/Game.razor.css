@@ -1,4 +1,7 @@
-h1 {
-    text-align: center;
-    padding-top: 10px;
+.game {
+	background-color: #44475A1a;
+
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
 }

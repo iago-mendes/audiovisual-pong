@@ -44,4 +44,7 @@
 	background-color: var(--color-wall);
 	padding: 5px 0;
 	width: fit-content;
+
+	border-radius: 0.25rem;
+	overflow: hidden;
 }

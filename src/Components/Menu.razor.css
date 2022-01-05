@@ -1,0 +1,48 @@
+.menu {
+	height: 10vh;
+	padding: 1rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.menu .actions {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.menu .actions button {
+	background: none;
+	border: none;
+
+	padding: 1rem;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	transition: background-color 0.2s, transform 0.2s;
+}
+
+.menu .actions button:hover {
+	background: rgba(255, 255, 255, 0.1);
+	transform: scale(0.9);
+}
+
+.menu .actions button svg {
+	fill: var(--color-foreground);
+
+	width: 2rem;
+	height: 2rem;
+}
+
+.menu .actions button svg.continue-icon {
+	transform: rotate(90deg);
+}
+
+.menu .timer {
+	font-size: 2rem;
+}

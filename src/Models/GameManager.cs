@@ -5,7 +5,6 @@ namespace audiovisual_pong.Models
 	{
 		public bool IsRunning { get; private set; } = false;
 		public event EventHandler? MainLoopCompleted;
-
 		public Dimensions containerDimensions;
 		public BallModel Ball { get; private set; }
 		public WallModel Wall { get; private set; }
@@ -13,6 +12,7 @@ namespace audiovisual_pong.Models
 		public PaddleComputerModel ComputerPaddle { get; private set; }
 		public ScoreModel UserScore { get; private set; }
 		public ScoreModel ComputerScore { get; private set; }
+		private string userPaddleNextMove = "";
 
 		public GameManager(Dimensions containerDimensions) {
 			this.containerDimensions = containerDimensions;
@@ -81,7 +81,12 @@ namespace audiovisual_pong.Models
 				CheckScores();
 				CheckCollisions();
 				Ball.Move();
-				ComputerPaddle.Move(Ball.position.y);
+				ComputerPaddle.Move(Ball.position.y, containerDimensions.y);
+
+				if (userPaddleNextMove != "") {
+					UserPaddle.Move(userPaddleNextMove, containerDimensions.y);
+					userPaddleNextMove = "";
+				}
 
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
 				await Task.Delay(90); // 90 ms
@@ -106,17 +111,11 @@ namespace audiovisual_pong.Models
 		}
 
 		public void MoveUserPaddleUp() {
-			if (UserPaddle.top - UserPaddle.velocity > 0)
-				UserPaddle.Move(-1 * UserPaddle.velocity);
-			else if (UserPaddle.top > 0)
-				UserPaddle.Move(-1 * UserPaddle.top);
+			userPaddleNextMove="up";
 		}
 
 		public void MoveUserPaddleDown() {
-			if (UserPaddle.bottom + UserPaddle.velocity < containerDimensions.y)
-				UserPaddle.Move(UserPaddle.velocity);
-			else if (UserPaddle.bottom < containerDimensions.y)
-				UserPaddle.Move(containerDimensions.y - UserPaddle.bottom);
+			userPaddleNextMove="down";
 		}
 	}
 }

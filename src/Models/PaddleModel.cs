@@ -6,7 +6,7 @@ namespace audiovisual_pong.Models
 		public double left { get; private set; }
 		public double right { get; private set; }
 
-		public double velocity { get; private set; } = 10;
+		public double velocity { get; private set; } = 25;
 
 		public PaddleModel(Dimensions leftTopCornerPosition, double width, double height) {
 			top = leftTopCornerPosition.y;
@@ -43,7 +43,7 @@ namespace audiovisual_pong.Models
 			// maybe both can be false => bug with ball movement
 		}
 
-		public void Move(double deltaY) {
+		public void ChangeYPosition(double deltaY) {
 			top += deltaY;
 			bottom += deltaY;
 		}

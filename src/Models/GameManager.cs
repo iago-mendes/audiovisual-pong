@@ -81,6 +81,7 @@ namespace audiovisual_pong.Models
 				CheckScores();
 				CheckCollisions();
 				Ball.Move();
+				ComputerPaddle.Move(Ball.position.y);
 
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
 				await Task.Delay(90); // 90 ms

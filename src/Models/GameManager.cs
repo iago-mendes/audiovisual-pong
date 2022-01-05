@@ -4,6 +4,7 @@ namespace audiovisual_pong.Models
 	public class GameManager
 	{
 		public bool IsRunning { get; private set; } = false;
+		public bool IsPaused { get; private set; } = false;
 		public event EventHandler? MainLoopCompleted;
 		public Dimensions containerDimensions;
 		public BallModel Ball { get; private set; }
@@ -13,9 +14,13 @@ namespace audiovisual_pong.Models
 		public ScoreModel UserScore { get; private set; }
 		public ScoreModel ComputerScore { get; private set; }
 		private string userPaddleNextMove = "";
+		public int TimeLeft { get; private set; } // seconds
+		private int TimeTotal { get; set; } // seconds
 
-		public GameManager(Dimensions containerDimensions) {
+		public GameManager(Dimensions containerDimensions, int time) {
 			this.containerDimensions = containerDimensions;
+			this.TimeLeft = time;
+			this.TimeTotal = time;
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
@@ -41,6 +46,8 @@ namespace audiovisual_pong.Models
 		}
 
 		private void ResetGameObjects() {
+			this.TimeLeft = this.TimeTotal;
+
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
 
@@ -67,17 +74,29 @@ namespace audiovisual_pong.Models
 		public void StartGame() {
 			IsRunning = true;
 			MainLoop();
+			TimeLoop();
 		}
 
 		public void StopGame() {
+			IsPaused = false;
 			IsRunning = false;
 			ResetGameObjects();
+			MainLoopCompleted?.Invoke(this, EventArgs.Empty);
+		}
+
+		public void TogglePauseGame() {
+			this.IsPaused = !this.IsPaused;
 		}
 
 		public async void MainLoop()
 		{
 			while(IsRunning)
 			{
+				if (IsPaused) {
+					await Task.Delay(90); // 90 ms
+					continue;
+				}
+
 				CheckScores();
 				CheckCollisions();
 				Ball.Move();
@@ -116,6 +135,21 @@ namespace audiovisual_pong.Models
 
 		public void MoveUserPaddleDown() {
 			userPaddleNextMove="down";
+		}
+
+		private async void TimeLoop() {
+			while (IsRunning && TimeLeft > 0) {
+				if (IsPaused) {
+					await Task.Delay(1000); // 1 s
+					continue;
+				}
+				
+				TimeLeft--;
+				await Task.Delay(1000); // 1 s
+			}
+
+			if (IsRunning)
+				StopGame();
 		}
 	}
 }

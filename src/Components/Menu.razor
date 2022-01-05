@@ -1,0 +1,39 @@
+<div class="menu">
+	<div class="actions">
+		<button title="@Game?.IsPaused ? Continue : Pause" @onclick="handlePauseOrContinueClick">
+			@if (Game?.IsPaused == true) {
+				<span>Continue</span>
+			}
+			else {
+				<span>Pause</span>
+			}
+		</button>
+		<button title="Stop" @onclick="handleStopClick">
+			Stop
+		</button>
+	</div>
+	<div class="timer">
+		<span>@getFormattedTime()</span>
+	</div>
+</div>
+
+@code {
+	string getFormattedTime() {
+		int time = Game != null ? Game.TimeLeft : 0;
+		int minutes = time / 60;
+		int seconds = minutes > 0 ? time % (minutes * 60) : time;
+
+		string secondsPadding = seconds < 10 ? "0" : "";
+		string formattedTime = $"{minutes}:{secondsPadding}{seconds}";
+		return formattedTime;
+	}
+
+	void handlePauseOrContinueClick() {
+		Game?.TogglePauseGame();
+	}
+	void handleStopClick() {
+		Game?.StopGame();
+	}
+
+	[Parameter] public GameManager? Game { get; set; }
+}

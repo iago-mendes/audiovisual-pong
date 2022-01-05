@@ -1,5 +1,6 @@
 @inject IJSRuntime JsRuntime
 
+<Menu Game="Model" />
 <div class="wall-container">
 	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick" tabindex="0" @onkeydown="HandleKeyPress">
 		@if (Model == null) {
@@ -36,15 +37,13 @@
 		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
 		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
 
-		Model = new GameManager(containerDimensions);
+		Model = new GameManager(containerDimensions, 1 * 60);
 		Model.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 
 	void HandleClick() {
 		if (Model?.IsRunning == false)
 			Model.StartGame();
-		else
-			Model?.StopGame();
 	}
 
 	void HandleKeyPress(KeyboardEventArgs e)

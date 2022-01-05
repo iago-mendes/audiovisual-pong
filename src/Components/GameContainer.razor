@@ -2,11 +2,15 @@
 
 <Menu Game="Model" />
 <div class="wall-container">
-	<div class="game-container" style="@gameContainerCss" @onclick="HandleClick" tabindex="0" @onkeydown="HandleKeyPress">
+	<div class="game-container" style="@gameContainerCss" tabindex="0" @onkeydown="HandleKeyPress">
 		@if (Model == null) {
 			<h1>Loading...</h1>
 		}
 		else {
+			@if (!Model.IsRunning) {
+				<button @onclick="HandleStartClick" class="start">Start</button>
+			}
+
 			<div class="rect border"></div>	
 				<div class="middle border">
 					<div class="square">
@@ -41,7 +45,7 @@
 		Model.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 
-	void HandleClick() {
+	void HandleStartClick() {
 		if (Model?.IsRunning == false)
 			Model.StartGame();
 	}

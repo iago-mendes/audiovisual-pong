@@ -34,6 +34,10 @@
 
 				<Score Model="Model.UserScore" side="right" />
 				<Score Model="Model.ComputerScore" side="left" />
+
+				@foreach (var obstacle in Model.ObstacleList) {
+					<Obstacle Model="obstacle" />
+				}
 		}
 	</div>
 </div>

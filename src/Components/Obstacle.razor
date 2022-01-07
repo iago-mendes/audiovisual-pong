@@ -1,0 +1,12 @@
+@if (Model != null) {
+	<div class="obstacle" style="@paddleCss" >
+		<strong>@Model.life</strong>
+	</div>
+}
+
+@code {
+	[Parameter] public ObstacleModel? Model { get; set; }
+
+	string paddleCss =>
+		$"left: {Model?.left/15}rem; width: {(Model?.right - Model?.left)/15}rem; top: {Model?.top/15}rem; height: {(Model?.bottom - Model?.top)/15}rem";
+}

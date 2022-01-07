@@ -16,6 +16,7 @@ namespace audiovisual_pong.Models
 		private string userPaddleNextMove = "";
 		public int TimeLeft { get; private set; } // seconds
 		private int TimeTotal { get; set; } // seconds
+		private bool areScoresOnDelay = false;
 
 		public GameManager(Dimensions containerDimensions, int time) {
 			this.containerDimensions = containerDimensions;
@@ -99,7 +100,8 @@ namespace audiovisual_pong.Models
 
 				CheckScores();
 				CheckCollisions();
-				Ball.Move();
+				if (!areScoresOnDelay)
+					Ball.Move();
 				ComputerPaddle.Move(Ball.position.y, containerDimensions.y);
 
 				if (userPaddleNextMove != "") {
@@ -118,15 +120,28 @@ namespace audiovisual_pong.Models
 			ComputerPaddle.HandleCollision(Ball);
 		}
 
-		private void CheckScores() {
-			if (Ball.position.x + Ball.radius > containerDimensions.x) { // computer scores
+		private async void CheckScores() {
+			if (areScoresOnDelay)
+				return;
+			
+			bool hasComputerScored = Ball.position.x - Ball.radius - 10 > containerDimensions.x;
+			bool hasUserScored = Ball.position.x + Ball.radius + 10 < 0;
+
+			if (!hasComputerScored && !hasUserScored)
+				return;
+			
+			if (hasComputerScored)
 				ComputerScore.Increment();
-				Ball.MoveToCenter();
-			}
-			else if (Ball.position.x - Ball.radius < 0) { // user scores
+			if (hasUserScored)
 				UserScore.Increment();
-				Ball.MoveToCenter();
-			}
+			
+			areScoresOnDelay = true;
+			await Task.Delay(1000); // 1 s
+
+			Ball.MoveToCenter();
+
+			await Task.Delay(500); // 0.5 s
+			areScoresOnDelay = false;
 		}
 
 		public void MoveUserPaddleUp() {

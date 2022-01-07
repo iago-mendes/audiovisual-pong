@@ -17,6 +17,7 @@ namespace audiovisual_pong.Models
 		public int TimeLeft { get; private set; } // seconds
 		private int TimeTotal { get; set; } // seconds
 		private bool areScoresOnDelay = false;
+		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
 
 		public GameManager(Dimensions containerDimensions, int time) {
 			this.containerDimensions = containerDimensions;
@@ -70,6 +71,8 @@ namespace audiovisual_pong.Models
 
 			UserScore.Reset();
 			ComputerScore.Reset();
+
+			ObstacleList = new List<ObstacleModel>();
 		}
 
 		public void StartGame() {
@@ -100,14 +103,16 @@ namespace audiovisual_pong.Models
 
 				CheckScores();
 				CheckCollisions();
+				RemoveDeadObstacles();
+
 				if (!areScoresOnDelay)
 					Ball.Move();
 				ComputerPaddle.Move(Ball.position.y, containerDimensions.y);
-
 				if (userPaddleNextMove != "") {
 					UserPaddle.Move(userPaddleNextMove, containerDimensions.y);
 					userPaddleNextMove = "";
 				}
+				MoveObstacles();
 
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
 				await Task.Delay(90); // 90 ms
@@ -118,6 +123,7 @@ namespace audiovisual_pong.Models
 			Wall.handleCollision(Ball);
 			UserPaddle.HandleCollision(Ball);
 			ComputerPaddle.HandleCollision(Ball);
+			CheckObstacleCollisions();
 		}
 
 		private async void CheckScores() {
@@ -160,11 +166,59 @@ namespace audiovisual_pong.Models
 				}
 				
 				TimeLeft--;
+
+				int timeElapsed = TimeTotal - TimeLeft;
+				if (timeElapsed % 15 == 0) // new obstacle every 15min
+					SpawnObstacle();
+
 				await Task.Delay(1000); // 1 s
 			}
 
 			if (IsRunning)
 				StopGame();
+		}
+
+		private void SpawnObstacle() {
+			double width = 100;
+			double height = 150;
+
+			double minXPosition = containerDimensions.x * 0.25;
+			double maxXPosition = containerDimensions.x * 0.75;
+			double minYPosition = 0;
+			double maxYPosition = containerDimensions.y;
+
+			double minLeftPosition = minXPosition;
+			double maxLeftPosition = maxXPosition - width;
+			double minTopPosition = minYPosition;
+			double maxTopPosition = maxYPosition - height;
+
+			Random random = new Random();
+			double leftPosition = (random.NextDouble() * (maxLeftPosition - minLeftPosition) + minLeftPosition);
+			double topPosition = (random.NextDouble() * (maxTopPosition - minTopPosition) + minTopPosition);
+			double xDestination = random.NextDouble() < 0.5 ? minXPosition : maxXPosition;
+
+			Dimensions leftTopCornerPosition = new Dimensions(leftPosition, topPosition);
+			ObstacleModel newObstacle = new ObstacleModel(leftTopCornerPosition, xDestination, width, height);
+			ObstacleList.Add(newObstacle);
+		}
+
+		private void MoveObstacles() {
+			ObstacleList.ForEach(delegate(ObstacleModel obstacle) {
+				obstacle.Move();
+			});
+		}
+
+		private void CheckObstacleCollisions() {
+			ObstacleList.ForEach(delegate(ObstacleModel obstacle) {
+				obstacle.HandleCollision(Ball);
+			});
+		}
+
+		private void RemoveDeadObstacles() {
+			ObstacleList.RemoveAll(delegate(ObstacleModel obstacle) {
+				bool isDead = obstacle.life <= 0;
+				return isDead;
+			});
 		}
 	}
 }

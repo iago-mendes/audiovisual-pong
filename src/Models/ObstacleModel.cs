@@ -1,8 +1,6 @@
 namespace audiovisual_pong.Models
 {
-	public abstract class ObstacleModel {
-		public double width { get; private set; } = 100;
-		public double height { get; private set; } = 150;
+	public class ObstacleModel {
 		public double top { get; private set; }
 		public double bottom { get; private set; }
 		public double left { get; private set; }
@@ -11,7 +9,7 @@ namespace audiovisual_pong.Models
 		private double xDestination;
 		public double life { get; private set; } = 2;
 
-		public ObstacleModel(Dimensions leftTopCornerPosition, double xDestination) {
+		public ObstacleModel(Dimensions leftTopCornerPosition, double xDestination, double width, double height) {
 			top = leftTopCornerPosition.y;
 			left = leftTopCornerPosition.x;
 			bottom = top + height;

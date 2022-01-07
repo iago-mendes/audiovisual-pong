@@ -105,9 +105,10 @@ namespace audiovisual_pong.Models
 				CheckCollisions();
 				RemoveDeadObstacles();
 
-				if (!areScoresOnDelay)
+				if (!areScoresOnDelay) {
 					Ball.Move();
-				ComputerPaddle.Move(Ball.position.y, containerDimensions.y);
+					ComputerPaddle.Move(Ball.position.y, containerDimensions.y);
+				}
 				if (userPaddleNextMove != "") {
 					UserPaddle.Move(userPaddleNextMove, containerDimensions.y);
 					userPaddleNextMove = "";

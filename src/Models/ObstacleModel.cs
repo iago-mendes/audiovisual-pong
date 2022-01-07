@@ -5,7 +5,7 @@ namespace audiovisual_pong.Models
 		public double bottom { get; private set; }
 		public double left { get; private set; }
 		public double right { get; private set; }
-		public double speed { get; private set; } = 25;
+		public double speed { get; private set; } = 5;
 		private double xDestination;
 		public double life { get; private set; } = 2;
 

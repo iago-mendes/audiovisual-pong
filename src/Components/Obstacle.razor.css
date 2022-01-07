@@ -1,7 +1,7 @@
 .obstacle {
-	background-color: gray;
+	background-color: var(--color-wall);
 	border-radius: 5px;
 
 	position: absolute;
-	transition: left 0.2s, top 0.2s;
+	/* transition: left 0.2s, top 0.2s; */
 }

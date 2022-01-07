@@ -168,7 +168,7 @@ namespace audiovisual_pong.Models
 				TimeLeft--;
 
 				int timeElapsed = TimeTotal - TimeLeft;
-				if (timeElapsed % 15 == 0) // new obstacle every 15min
+				if (timeElapsed % 5 == 0) // new obstacle every 15min
 					SpawnObstacle();
 
 				await Task.Delay(1000); // 1 s

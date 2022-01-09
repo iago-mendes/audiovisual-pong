@@ -1,11 +1,24 @@
 @page "/pre-game"
 @inject NavigationManager NavManager
 
-<h1>Pre-game</h1>
-<button @onclick="handleContinueClick">CONTINUE</button>
+<div class="container">
+	<h1>Pre-game</h1>
+	<div class="select-menu">
+		<!--<label class="select-label">Selected Song: @song</label>-->
+		<select class="form-control" @bind="song">
+			<option selected disabled value="-1">--Select a song--</option>
+			<option value ="Song 1">Song 1</option>
+			<option value="Song 2">Song 2</option>
+			<option value="Song 3">Song 3</option>
+			<option value="Song 4">Song 4</option>
+		</select>
+	</div>
+	<button @onclick="handleContinueClick">CONTINUE</button>
+</div>
 
 @code {
 	void handleContinueClick() {
 		NavManager.NavigateTo("/game");
 	}
+	string song;
 }

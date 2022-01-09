@@ -8,12 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CSCore" Version="1.2.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
   </ItemGroup>
 
 	<ItemGroup>
-    <None Include="publish/wwwroot/vercel.json"  CopyToPublishDirectory="PreserveNewest" />
+    <None Include="publish/wwwroot/vercel.json" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

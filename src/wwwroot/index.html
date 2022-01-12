@@ -11,6 +11,7 @@
 		<!-- CSS -->
 		<link href="css/global.css" rel="stylesheet" />
 		<link href="audiovisual-pong.styles.css" rel="stylesheet" />
+		<link href="css/loading-spinner.css" rel="stylesheet" />
 
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +19,13 @@
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<div id="app">Loading...</div>
+		<div id="app">
+			<div class="loading-spinner">
+				<svg>
+					<circle cx="25" cy="25" r="20" fill="none" strokeWidth="4" />
+				</svg>
+			</div>
+		</div>
 		<script src="_framework/blazor.webassembly.js"></script>
 		<script> 
 			window.getWindowDimensions = () => (

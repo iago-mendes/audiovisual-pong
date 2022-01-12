@@ -56,7 +56,7 @@
 	}
 	private async void FocusOnGameContainer() {
 		await Task.Delay(10); // 10 ms
-		await JsRuntime.InvokeAsync<bool>("focusOnElement", gameRef);
+		await JsRuntime.InvokeAsync<string>("focusOnElement", gameRef);
 	}
 	void HandleStartClick() {
 		if (Model?.IsRunning == false) {

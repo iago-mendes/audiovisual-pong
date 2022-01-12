@@ -1,6 +1,7 @@
 namespace audiovisual_pong.Models
 {
 	public class ObstacleModel {
+		public int Id { get; private set; }
 		public double top { get; private set; }
 		public double bottom { get; private set; }
 		public double left { get; private set; }
@@ -16,6 +17,9 @@ namespace audiovisual_pong.Models
 			right = left + width;
 
 			this.xDestination = xDestination;
+			
+			Random random = new Random();
+			this.Id = (int) (random.NextDouble() * 1000000);
 		}
 
 		public void HandleCollision(BallModel ball) {

@@ -194,12 +194,18 @@ namespace audiovisual_pong.Models
 			double maxTopPosition = maxYPosition - height;
 
 			Random random = new Random();
-			double leftPosition = (random.NextDouble() * (maxLeftPosition - minLeftPosition) + minLeftPosition);
-			double topPosition = (random.NextDouble() * (maxTopPosition - minTopPosition) + minTopPosition);
-			double xDestination = random.NextDouble() < 0.5 ? minXPosition : maxXPosition;
+			ObstacleModel newObstacle;
 
-			Dimensions leftTopCornerPosition = new Dimensions(leftPosition, topPosition);
-			ObstacleModel newObstacle = new ObstacleModel(leftTopCornerPosition, xDestination, width, height);
+			do
+			{
+				double leftPosition = (random.NextDouble() * (maxLeftPosition - minLeftPosition) + minLeftPosition);
+				double topPosition = (random.NextDouble() * (maxTopPosition - minTopPosition) + minTopPosition);
+				double xDestination = random.NextDouble() < 0.5 ? minXPosition : maxXPosition;
+
+				Dimensions leftTopCornerPosition = new Dimensions(leftPosition, topPosition);
+				newObstacle = new ObstacleModel(leftTopCornerPosition, xDestination, width, height);
+			} while (newObstacle.WillCollideWithOtherObstacles(ObstacleList));
+
 			ObstacleList.Add(newObstacle);
 		}
 

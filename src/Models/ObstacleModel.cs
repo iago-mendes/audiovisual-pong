@@ -81,10 +81,6 @@ namespace audiovisual_pong.Models
 		}
 
 		public bool WillCollideWithOtherObstacles(List<ObstacleModel> obstaclesList) {
-			// logic of this function is incorrect
-			// until we're able to fix it, it will always return false
-			return false;
-
 			bool willCollide = false;
 
 			double nextMove = getNextMove();
@@ -95,13 +91,13 @@ namespace audiovisual_pong.Models
 				if (obstacle.Id == this.Id)
 					return;
 				
-				bool willTopSideCollide = obstacle.top < this.top && this.top < obstacle.bottom;
-				bool willBottomSideCollide = obstacle.top < this.bottom && this.bottom < obstacle.bottom;
+				bool willTopSideCollide = obstacle.top <= this.top && this.top <= obstacle.bottom;
+				bool willBottomSideCollide = obstacle.top <= this.bottom && this.bottom <= obstacle.bottom;
 				if (!willTopSideCollide && !willBottomSideCollide)
 					return;
 				
-				bool willLeftSideCollide = obstacle.left >= nextLeft && nextLeft <= obstacle.right;
-				bool willRightSideCollide = obstacle.left >= nextRight && nextRight <= obstacle.right;
+				bool willLeftSideCollide = obstacle.left <= nextLeft && nextLeft <= obstacle.right;
+				bool willRightSideCollide = obstacle.left <= nextRight && nextRight <= obstacle.right;
 
 				if (willLeftSideCollide || willRightSideCollide)
 					willCollide = true;

@@ -205,7 +205,8 @@ namespace audiovisual_pong.Models
 
 		private void MoveObstacles() {
 			ObstacleList.ForEach(delegate(ObstacleModel obstacle) {
-				obstacle.Move();
+				if (!obstacle.WillCollideWithOtherObstacles(ObstacleList))
+					obstacle.Move();
 			});
 		}
 

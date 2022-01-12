@@ -58,19 +58,56 @@ namespace audiovisual_pong.Models
 			left += deltaX;
 		}
 
-		public void Move() {
+		private double getNextMove() {
 			if (xDestination > right) { // needs to go right
 				if (xDestination < right + speed)
-					ChangeXPosition(xDestination - right);
+					return xDestination - right;
 				else
-					ChangeXPosition(speed);
+					return speed;
 			}
 			else if (xDestination < left) { // needs to go left
 				if (xDestination > left - speed)
-					ChangeXPosition(xDestination - left);
+					return xDestination - left;
 				else
-					ChangeXPosition(-1 * speed);
+					return -1 * speed;
 			}
+
+			return 0;
+		}
+
+		public void Move() {
+			double nextMove = getNextMove();
+			ChangeXPosition(nextMove);
+		}
+
+		public bool WillCollideWithOtherObstacles(List<ObstacleModel> obstaclesList) {
+			// logic of this function is incorrect
+			// until we're able to fix it, it will always return false
+			return false;
+
+			bool willCollide = false;
+
+			double nextMove = getNextMove();
+			double nextLeft = this.left + nextMove;
+			double nextRight = this.right + nextMove;
+
+			obstaclesList.ForEach(delegate(ObstacleModel obstacle) {
+				if (obstacle.Id == this.Id)
+					return;
+				
+				bool willTopSideCollide = obstacle.top < this.top && this.top < obstacle.bottom;
+				bool willBottomSideCollide = obstacle.top < this.bottom && this.bottom < obstacle.bottom;
+				if (!willTopSideCollide && !willBottomSideCollide)
+					return;
+				
+				bool willLeftSideCollide = obstacle.left >= nextLeft && nextLeft <= obstacle.right;
+				bool willRightSideCollide = obstacle.left >= nextRight && nextRight <= obstacle.right;
+
+				if (willLeftSideCollide || willRightSideCollide)
+					willCollide = true;
+			});
+
+			return willCollide;
 		}
 	}
 }

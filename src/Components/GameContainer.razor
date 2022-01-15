@@ -1,72 +1,46 @@
 @inject IJSRuntime JsRuntime
-@inject NavigationManager NavManager
 
-<Menu Game="Model" />
-<div class="wall-container">
-	<div
-		class="game-container"
-		style="@gameContainerCss"
-		tabindex="0"
-		@onkeydown="HandleKeyPress"
-		@ref="gameRef"
-		@onfocusout="FocusOnGameContainer"
-	>
-		@if (Model == null) {
-			<h1>Loading...</h1>
-		}
-		else {
+@if (Model != null) {
+	<Menu Game="Model" />
+	<div class="wall-container">
+		<div
+			class="game-container"
+			style="@gameContainerCss"
+			tabindex="0"
+			@onkeydown="HandleKeyPress"
+			@ref="gameRef"
+			@onfocusout="FocusOnGameContainer"
+		>
 			@if (!Model.IsRunning) {
 				<button @onclick="HandleStartClick" class="start">Start</button>
 			}
 
-			<div class="rect border"></div>	
-				<div class="middle border">
-					<div class="square">
-					</div>
-					<div class="square2">
-					</div>
-				</div>
-				<div class="line"></div>	
-				<div class="rect border"></div>
+			<div class="rect border" />
+			<div class="middle border">
+				<div class="square" />
+				<div class="square2" />
+			</div>
+			<div class="line" />
+			<div class="rect border" />
 
-				<Ball Model="Model.Ball" IsRunning="Model.IsRunning" />
-				<Paddle Model="Model.UserPaddle" />
-				<Paddle Model="Model.ComputerPaddle" />
+			<Ball Model="Model.Ball" IsRunning="Model.IsRunning" />
+			<Paddle Model="Model.UserPaddle" />
+			<Paddle Model="Model.ComputerPaddle" />
 
-				<Score Model="Model.UserScore" side="right" />
-				<Score Model="Model.ComputerScore" side="left" />
+			<Score Model="Model.UserScore" side="right" />
+			<Score Model="Model.ComputerScore" side="left" />
 
-				@foreach (var obstacle in Model.ObstacleList) {
-					<Obstacle Model="obstacle" @key="obstacle.Id" />
-				}
-		}
+			@foreach (var obstacle in Model.ObstacleList) {
+				<Obstacle Model="obstacle" @key="obstacle.Id" />
+			}
+		</div>
 	</div>
-</div>
+}
 
 @code {
 	string gameContainerCss => $"width: {Model?.containerDimensions.x/15}rem; height: {Model?.containerDimensions.y/15}rem";
 	ElementReference gameRef;
 
-	protected override async Task OnInitializedAsync()
-	{
-		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
-		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
-
-		Uri uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-		List<string> queries = new List<string>(uri.Query.Split('&'));
-		string audioQueryMatch = "?audio=";
-		string? audioQuery = queries.Find(delegate(string query) {
-			return query.Contains(audioQueryMatch);
-		});
-		string audioSrc = audioQuery != null ? audioQuery.Substring(audioQueryMatch.Length) : "";
-
-		if (audioSrc == "") {
-			return;
-		}
-
-		Model = new GameManager(containerDimensions, audioSrc);
-		Model.MainLoopCompleted += (o,e) => StateHasChanged();
-	}
 	private async void FocusOnGameContainer() {
 		await Task.Delay(10); // 10 ms
 		await JsRuntime.InvokeAsync<string>("focusOnElement", gameRef);
@@ -85,5 +59,5 @@
 			Model?.MoveUserPaddleDown();
 	}
 
-	GameManager? Model { get; set; }
+	[Parameter] public GameManager? Model { get; set; }
 }

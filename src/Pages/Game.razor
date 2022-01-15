@@ -1,5 +1,53 @@
 @page "/game"
 
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
+
 <div class="game">
-	<GameContainer />
+	@if (errorMessage != "") {
+		<h1 class="error-message">@errorMessage</h1>
+	}
+	else if (GameModel == null) {
+		<div class="loading-spinner">
+			<svg>
+				<circle cx="25" cy="25" r="20" fill="none" strokeWidth="4" />
+			</svg>
+		</div>
+	}
+	else {
+		<GameContainer Model="GameModel" />
+	}
 </div>
+
+@code {
+	string errorMessage = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
+		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
+
+		if (containerDimensions.x < 750 || containerDimensions.y < 300) {
+			errorMessage = "Your window dimensions don't support this game!";
+			return;
+		}
+
+		Uri uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+		List<string> queries = new List<string>(uri.Query.Split('&'));
+		string audioQueryMatch = "?audio=";
+		string? audioQuery = queries.Find(delegate(string query) {
+			return query.Contains(audioQueryMatch);
+		});
+		string audioSrc = audioQuery != null ? audioQuery.Substring(audioQueryMatch.Length) : "";
+
+		if (audioSrc == "") {
+			errorMessage = "No audio source was provided!";
+			return;
+		}
+
+		GameModel = new GameManager(containerDimensions, audioSrc);
+		GameModel.MainLoopCompleted += (o,e) => StateHasChanged();
+	}
+
+	GameManager? GameModel { get; set; }
+}

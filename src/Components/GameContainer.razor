@@ -1,6 +1,10 @@
 @inject IJSRuntime JsRuntime
 
 @if (Model != null) {
+	<audio
+		id="game-audio"
+		src="@Model.AudioSrc"
+	/>
 	<Menu Game="Model" />
 	<div class="wall-container">
 		<div
@@ -45,10 +49,12 @@
 		await Task.Delay(10); // 10 ms
 		await JsRuntime.InvokeAsync<string>("focusOnElement", gameRef);
 	}
-	void HandleStartClick() {
+	async Task HandleStartClick() {
 		if (Model?.IsRunning == false) {
 			Model.StartGame();
 			FocusOnGameContainer();
+
+			await JsRuntime.InvokeAsync<string>("playAudio", "game-audio");
 		}
 	}
 	void HandleKeyPress(KeyboardEventArgs e)

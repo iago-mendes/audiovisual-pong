@@ -81,6 +81,8 @@ namespace audiovisual_pong.Models
 
 		public void StartGame() {
 			IsRunning = true;
+			IsPaused = false;
+
 			MainLoop();
 			TimeLoop();
 		}

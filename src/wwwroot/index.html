@@ -35,6 +35,9 @@
 				}
 			)
 			window.focusOnElement = (element) => element.focus()
+			window.playAudio = (elementId) => document.getElementById(elementId).play()
+			window.pauseAudio = (elementId) => document.getElementById(elementId).pause()
+			window.resetAudio = (elementId) => document.getElementById(elementId).currentTime = 0
 		</script>
 	</body>
 </html>

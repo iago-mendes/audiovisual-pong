@@ -1,3 +1,5 @@
+@inject IJSRuntime JsRuntime
+
 <div class="menu">
 	<div class="actions">
 			@if (Game?.IsPaused == true) {
@@ -40,11 +42,18 @@
 		return formattedTime;
 	}
 
-	void handlePauseOrContinueClick() {
+	async void handlePauseOrContinueClick() {
 		Game?.TogglePauseGame();
+
+		if (Game?.IsPaused == true)
+			await JsRuntime.InvokeAsync<string>("pauseAudio", "game-audio");
+		else
+			await JsRuntime.InvokeAsync<string>("playAudio", "game-audio");
 	}
-	void handleStopClick() {
+	async void handleStopClick() {
 		Game?.StopGame();
+		await JsRuntime.InvokeAsync<string>("pauseAudio", "game-audio");
+		await JsRuntime.InvokeAsync<string>("resetAudio", "game-audio");
 	}
 
 	[Parameter] public GameManager? Game { get; set; }

@@ -52,8 +52,8 @@
 	}
 	async void handleStopClick() {
 		Game?.StopGame();
-		await JsRuntime.InvokeAsync<string>("pauseAudio", "game-audio");
-		await JsRuntime.InvokeAsync<string>("resetAudio", "game-audio");
+		await JsRuntime.InvokeVoidAsync("pauseAudio", "game-audio");
+		await JsRuntime.InvokeVoidAsync("resetAudio", "game-audio");
 	}
 
 	[Parameter] public GameManager? Game { get; set; }

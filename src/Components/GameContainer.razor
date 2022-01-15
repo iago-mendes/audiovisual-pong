@@ -47,14 +47,14 @@
 
 	private async void FocusOnGameContainer() {
 		await Task.Delay(10); // 10 ms
-		await JsRuntime.InvokeAsync<string>("focusOnElement", gameRef);
+		await JsRuntime.InvokeVoidAsync("focusOnElement", gameRef);
 	}
 	async Task HandleStartClick() {
 		if (Model?.IsRunning == false) {
 			Model.StartGame();
 			FocusOnGameContainer();
 
-			await JsRuntime.InvokeAsync<string>("playAudio", "game-audio");
+			await JsRuntime.InvokeVoidAsync("playAudio", "game-audio");
 		}
 	}
 	void HandleKeyPress(KeyboardEventArgs e)

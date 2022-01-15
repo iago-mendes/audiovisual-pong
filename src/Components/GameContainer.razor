@@ -54,6 +54,7 @@
 			Model.StartGame();
 			FocusOnGameContainer();
 
+			await JsRuntime.InvokeVoidAsync("resetAudio", "game-audio");
 			await JsRuntime.InvokeVoidAsync("playAudio", "game-audio");
 		}
 	}

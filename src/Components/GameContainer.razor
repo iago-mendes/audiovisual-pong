@@ -1,4 +1,5 @@
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
 
 <Menu Game="Model" />
 <div class="wall-container">
@@ -51,7 +52,19 @@
 		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
 		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
 
-		Model = new GameManager(containerDimensions, 1 * 60);
+		Uri uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+		List<string> queries = new List<string>(uri.Query.Split('&'));
+		string audioQueryMatch = "?audio=";
+		string? audioQuery = queries.Find(delegate(string query) {
+			return query.Contains(audioQueryMatch);
+		});
+		string audioSrc = audioQuery != null ? audioQuery.Substring(audioQueryMatch.Length) : "";
+
+		if (audioSrc == "") {
+			return;
+		}
+
+		Model = new GameManager(containerDimensions, audioSrc);
 		Model.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 	private async void FocusOnGameContainer() {

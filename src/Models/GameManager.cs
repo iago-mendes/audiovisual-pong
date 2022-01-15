@@ -18,11 +18,15 @@ namespace audiovisual_pong.Models
 		private int TimeTotal { get; set; } // seconds
 		private bool areScoresOnDelay = false;
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
+		public string AudioSrc { get; private set; }
 
-		public GameManager(Dimensions containerDimensions, int time) {
+		public GameManager(Dimensions containerDimensions, string audioSrc) {
 			this.containerDimensions = containerDimensions;
-			this.TimeLeft = time;
-			this.TimeTotal = time;
+
+			this.AudioSrc = audioSrc;
+			// default time
+			this.TimeLeft = 1 * 60;
+			this.TimeTotal = 1 * 60;
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);

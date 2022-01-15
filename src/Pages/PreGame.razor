@@ -18,7 +18,8 @@
 
 @code {
 	void handleContinueClick() {
-		NavManager.NavigateTo("/game");
+		// temporary url to mimic song selection
+		NavManager.NavigateTo("/game?audio=/audio/bensound-scifi.mp3");
 	}
-	string song;
+	string? song;
 }

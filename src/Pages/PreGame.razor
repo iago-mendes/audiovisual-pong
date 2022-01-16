@@ -6,22 +6,23 @@
 	<div class="select-menu">
 		<!--<label class="select-label">Selected Song: @song</label>-->
 		<select class="form-control" @bind="song">
-			<option selected disabled value="-1">--Select a song--</option>
+			<option selected disabled value="-1">Select a song</option>
 			<option value ="/audio/bensound-scifi.mp3">Bensound SciFi</option>
 		</select>
 	</div>
-	@if (song != "") {
+	@if (song != "-1") {
 		<button @onclick="handleContinueClick">CONTINUE</button>
 	}
 </div>
 
 @code {
-	string song = "";
+	string song = "-1";
 
 	void handleContinueClick() {
-		if (song == "")
+		if (song == "-1")
 			return;
-		
-		NavManager.NavigateTo($"/game?audio={song}");
+		else{
+			NavManager.NavigateTo($"/game?audio={song}");
+		}
 	}
 }

@@ -10,6 +10,10 @@
     text-align: center;
 }
 
+h1 {
+    color: var(--color-foreground)
+}
+
 .select-menu {
     height: 10vh;
 	width: 50vw;
@@ -24,15 +28,24 @@
     background-color: var(--color-cyan);
     border: var(--color-cyan);
     color: var(--color-background);
-    border-radius:15px;
+    border-radius: 8px;
+    
 }
 
 button {
     padding:20px;
     font-size: 1.5rem;
-    border-radius: 15px;
+    border-radius: 8px;
     color: var(--color-background);
     width: 50vw;
+    border: var(--color-foreground);
+    background-color: var(--color-foreground);
+    transition-duration: 0.4s;
 
+}
+
+button:hover {
+    background-color: rgb(120, 22, 247);
+    color: var(--color-foreground);
 }
 

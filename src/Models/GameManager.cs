@@ -9,6 +9,7 @@ namespace audiovisual_pong.Models
 		public Dimensions containerDimensions;
 		public BallModel Ball { get; private set; }
 		public WallModel Wall { get; private set; }
+		//public FrequencyModel Freq { get; private set; }
 		public PaddleUserModel UserPaddle { get; private set; }
 		public PaddleComputerModel ComputerPaddle { get; private set; }
 		public ScoreModel UserScore { get; private set; }
@@ -30,6 +31,8 @@ namespace audiovisual_pong.Models
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
+			//Freq = new FrequencyModel()
+			
 
 			double paddleWidth = 50;
 			double paddleHeight = 200;

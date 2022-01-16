@@ -45,7 +45,9 @@
 			return;
 		}
 
-		GameModel = new GameManager(containerDimensions, audioSrc);
+		string audioDataUri = await JsRuntime.InvokeAsync<string>("getFileAsDataUri", audioSrc);
+
+		GameModel = new GameManager(containerDimensions, audioSrc, audioDataUri);
 		GameModel.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 

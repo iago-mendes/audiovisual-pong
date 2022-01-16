@@ -8,7 +8,7 @@ namespace audiovisual_pong.Models
 		public Dimensions containerDimensions;
 		public BallModel Ball { get; private set; }
 		public WallModel Wall { get; private set; }
-		public FrequencyModel Freq { get; private set; }
+		// public FrequencyModel Freq { get; private set; }
 		public PaddleUserModel UserPaddle { get; private set; }
 		public PaddleComputerModel ComputerPaddle { get; private set; }
 		public ScoreModel UserScore { get; private set; }
@@ -20,18 +20,19 @@ namespace audiovisual_pong.Models
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
 		public string AudioSrc { get; private set; }
 
-		public GameManager(Dimensions containerDimensions, string audioSrc) {
+		public GameManager(Dimensions containerDimensions, string audioSrc, string audioDataUri) {
 			this.containerDimensions = containerDimensions;
 
 			this.AudioSrc = audioSrc;
+			// Uri audioUri = new Uri(audioSrc);
+			Console.WriteLine(audioDataUri);
 			// default time
 			this.TimeLeft = 1 * 60;
 			this.TimeTotal = 1 * 60;
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
-			Freq = new FrequencyModel();
-			
+			// Freq = new FrequencyModel();
 
 			double paddleWidth = 50;
 			double paddleHeight = 200;

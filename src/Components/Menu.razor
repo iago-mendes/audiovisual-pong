@@ -43,17 +43,20 @@
 	}
 
 	async void handlePauseOrContinueClick() {
+		if (Game?.IsRunning == false)
+			return;
+
 		Game?.TogglePauseGame();
 
 		if (Game?.IsPaused == true)
-			await JsRuntime.InvokeAsync<string>("pauseAudio", "game-audio");
+			await JsRuntime.InvokeVoidAsync("pauseAudio");
 		else
-			await JsRuntime.InvokeAsync<string>("playAudio", "game-audio");
+			await JsRuntime.InvokeVoidAsync("playAudio");
 	}
 	async void handleStopClick() {
 		Game?.StopGame();
-		await JsRuntime.InvokeVoidAsync("pauseAudio", "game-audio");
-		await JsRuntime.InvokeVoidAsync("resetAudio", "game-audio");
+
+		await JsRuntime.InvokeVoidAsync("resetAudio");
 	}
 
 	[Parameter] public GameManager? Game { get; set; }

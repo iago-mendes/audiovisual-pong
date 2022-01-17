@@ -1,3 +1,20 @@
+let audioContext = null
+let audioBuffer = null
+let audioSource = null
+let hasAudioStarted = false
+
+function init() {
+	try {
+		window.AudioContext = window.AudioContext || window.webkitAudioContext
+		audioContext = new AudioContext()
+	}
+	catch(e) {
+		alert('Web Audio API is not supported in this browser!')
+	}
+}
+
+window.addEventListener('load', init)
+
 window.getWindowDimensions = () => (
 	{
 		x: window.innerWidth,
@@ -7,29 +24,46 @@ window.getWindowDimensions = () => (
 
 window.focusOnElement = (element) => element.focus()
 
-window.playAudio = (elementId) => document.getElementById(elementId).play()
-
-window.pauseAudio = (elementId) => document.getElementById(elementId).pause()
-
-window.resetAudio = (elementId) => document.getElementById(elementId).currentTime = 0
-
-window.getFileAsDataUri = async (fileUrl) => {
-	let dataUri = ''
-
+window.loadAudio = async (audioUrl) => {
 	await new Promise((resolve, reject) => {
-		fetch(fileUrl)
-			.then(res => res.blob())
-			.then(res => {
-				const reader = new FileReader()
+		const request = new XMLHttpRequest()
 
-				reader.addEventListener("load", function () {
-					dataUri = this.result
-					resolve()
-				}, false)
+		request.open('GET', audioUrl, true)
+		request.responseType = 'arraybuffer'
+		request.onload = async () => {
+			const buffer = await audioContext.decodeAudioData(request.response)
+			audioBuffer = buffer
+			resolve()
+		}
 
-				reader.readAsDataURL(res)
-			})
+		request.send()
 	})
 
-	return dataUri
+	audioSource = audioContext.createBufferSource()
+	audioSource.buffer = audioBuffer
+	audioSource.connect(audioContext.destination)
+}
+
+window.playAudio = () => {
+	if (hasAudioStarted)
+		audioContext.resume()
+	else {
+		audioSource.start(0)
+		hasAudioStarted = true
+	}
+}
+
+window.pauseAudio = () => {
+	audioContext.suspend()
+}
+
+window.resetAudio = () => {
+	if (audioSource)
+		audioSource.stop()
+
+	audioSource = audioContext.createBufferSource()
+	audioSource.buffer = audioBuffer
+	audioSource.connect(audioContext.destination)
+
+	hasAudioStarted = false
 }

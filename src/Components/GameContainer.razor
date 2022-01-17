@@ -1,10 +1,6 @@
 @inject IJSRuntime JsRuntime
 
 @if (Model != null) {
-	<audio
-		id="game-audio"
-		src="@Model.AudioSrc"
-	/>
 	<Menu Game="Model" />
 	<div class="wall-container">
 		<div
@@ -54,8 +50,7 @@
 			Model.StartGame();
 			FocusOnGameContainer();
 
-			await JsRuntime.InvokeVoidAsync("resetAudio", "game-audio");
-			await JsRuntime.InvokeVoidAsync("playAudio", "game-audio");
+			await JsRuntime.InvokeVoidAsync("playAudio");
 		}
 	}
 	void HandleKeyPress(KeyboardEventArgs e)

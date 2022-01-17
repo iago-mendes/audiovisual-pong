@@ -18,14 +18,10 @@ namespace audiovisual_pong.Models
 		private int TimeTotal { get; set; } // seconds
 		private bool areScoresOnDelay = false;
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
-		public string AudioSrc { get; private set; }
 
-		public GameManager(Dimensions containerDimensions, string audioSrc, string audioDataUri) {
+		public GameManager(Dimensions containerDimensions) {
 			this.containerDimensions = containerDimensions;
 
-			this.AudioSrc = audioSrc;
-			// Uri audioUri = new Uri(audioSrc);
-			Console.WriteLine(audioDataUri);
 			// default time
 			this.TimeLeft = 1 * 60;
 			this.TimeTotal = 1 * 60;

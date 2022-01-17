@@ -1,16 +1,26 @@
 let audioContext = null
 let audioBuffer = null
 let audioSource = null
+let audioAnalyser = null
 let hasAudioStarted = false
 
 function init() {
 	try {
 		window.AudioContext = window.AudioContext || window.webkitAudioContext
 		audioContext = new AudioContext()
+
+		audioAnalyser = audioContext.createAnalyser()
+		audioAnalyser.connect(audioContext.destination)
 	}
 	catch(e) {
 		alert('Web Audio API is not supported in this browser!')
 	}
+}
+
+function configSource() {
+	audioSource = audioContext.createBufferSource()
+	audioSource.buffer = audioBuffer
+	audioSource.connect(audioAnalyser)
 }
 
 window.addEventListener('load', init)
@@ -39,18 +49,16 @@ window.loadAudio = async (audioUrl) => {
 		request.send()
 	})
 
-	audioSource = audioContext.createBufferSource()
-	audioSource.buffer = audioBuffer
-	audioSource.connect(audioContext.destination)
+	configSource()
 }
 
 window.playAudio = () => {
-	if (hasAudioStarted)
-		audioContext.resume()
-	else {
+	if (!hasAudioStarted) {
 		audioSource.start(0)
 		hasAudioStarted = true
 	}
+	else
+		audioContext.resume()
 }
 
 window.pauseAudio = () => {
@@ -61,9 +69,16 @@ window.resetAudio = () => {
 	if (audioSource)
 		audioSource.stop()
 
-	audioSource = audioContext.createBufferSource()
-	audioSource.buffer = audioBuffer
-	audioSource.connect(audioContext.destination)
+	configSource()
 
 	hasAudioStarted = false
+}
+
+window.getAudioFrequencyData = () => {
+	let audioFrequencyData = new Uint8Array(audioAnalyser.frequencyBinCount)
+
+	audioAnalyser.getByteFrequencyData(audioFrequencyData)
+	const audioFrequencyDataString = audioFrequencyData.join(';')
+
+	return audioFrequencyDataString
 }

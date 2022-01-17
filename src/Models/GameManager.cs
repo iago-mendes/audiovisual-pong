@@ -1,3 +1,5 @@
+using Microsoft.JSInterop;
+
 namespace audiovisual_pong.Models
 {
 	public class GameManager
@@ -18,11 +20,13 @@ namespace audiovisual_pong.Models
 		private int TimeTotal { get; set; } // seconds
 		private bool areScoresOnDelay = false;
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
+		private AudioData audioData { get; set; }
 
-		public GameManager(Dimensions containerDimensions) {
+		public GameManager(Dimensions containerDimensions, IJSRuntime JSRuntime) {
 			this.containerDimensions = containerDimensions;
 
 			// default time
+			this.audioData = new AudioData(JSRuntime);
 			this.TimeLeft = 1 * 60;
 			this.TimeTotal = 1 * 60;
 
@@ -176,6 +180,8 @@ namespace audiovisual_pong.Models
 				int timeElapsed = TimeTotal - TimeLeft;
 				if (timeElapsed % 5 == 0) // new obstacle every 15min
 					SpawnObstacle();
+				
+				await audioData.UpdateAudioData();
 
 				await Task.Delay(1000); // 1 s
 			}

@@ -3,6 +3,7 @@ let audioBuffer = null
 let audioSource = null
 let audioAnalyser = null
 let hasAudioStarted = false
+let isAudioPaused = false
 
 function initWebAudioApi() {
 	try {
@@ -51,12 +52,16 @@ window.playAudio = () => {
 		audioSource.start(0)
 		hasAudioStarted = true
 	}
-	else
+	
+	if (isAudioPaused) {
+		isAudioPaused = false
 		audioContext.resume()
+	}
 }
 
 window.pauseAudio = () => {
 	audioContext.suspend()
+	isAudioPaused = true
 }
 
 window.resetAudio = () => {

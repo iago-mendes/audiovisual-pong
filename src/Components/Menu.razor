@@ -54,6 +54,9 @@
 			await JsRuntime.InvokeVoidAsync("playAudio");
 	}
 	async void handleStopClick() {
+		if (Game?.IsRunning == false)
+			return;
+		
 		Game?.StopGame();
 
 		await JsRuntime.InvokeVoidAsync("resetAudio");

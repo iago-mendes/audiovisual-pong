@@ -4,7 +4,7 @@ let audioSource = null
 let audioAnalyser = null
 let hasAudioStarted = false
 
-function init() {
+function initWebAudioApi() {
 	try {
 		window.AudioContext = window.AudioContext || window.webkitAudioContext
 		audioContext = new AudioContext()
@@ -23,8 +23,6 @@ function configSource() {
 	audioSource.connect(audioAnalyser)
 }
 
-window.addEventListener('load', init)
-
 window.getWindowDimensions = () => (
 	{
 		x: window.innerWidth,
@@ -35,6 +33,8 @@ window.getWindowDimensions = () => (
 window.focusOnElement = (element) => element.focus()
 
 window.loadAudio = async (audioUrl) => {
+	initWebAudioApi()
+	
 	await new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest()
 

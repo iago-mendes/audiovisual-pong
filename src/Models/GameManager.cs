@@ -124,6 +124,11 @@ namespace audiovisual_pong.Models
 				}
 				MoveObstacles();
 
+				int oldAmplitude = audioData.BassAmplitude;
+				await audioData.UpdateAudioData();
+				int newAmplitude = audioData.BassAmplitude;
+				HandleSpawnObstacle(newAmplitude - oldAmplitude);
+
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
 				await Task.Delay(90); // 90 ms
 			}
@@ -177,12 +182,6 @@ namespace audiovisual_pong.Models
 				
 				TimeLeft--;
 
-				int timeElapsed = TimeTotal - TimeLeft;
-				if (timeElapsed % 5 == 0) // new obstacle every 15min
-					SpawnObstacle();
-				
-				await audioData.UpdateAudioData();
-
 				await Task.Delay(1000); // 1 s
 			}
 
@@ -190,7 +189,13 @@ namespace audiovisual_pong.Models
 				StopGame();
 		}
 
-		private void SpawnObstacle() {
+		private void HandleSpawnObstacle(int deltaAmplitude) {
+			int maxObstaclesCount = 10;
+			int minDeltaAmplitude = 10;
+
+			if (ObstacleList.Count >= maxObstaclesCount || deltaAmplitude < minDeltaAmplitude)
+				return;
+
 			double width = 100;
 			double height = 150;
 

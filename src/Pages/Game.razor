@@ -47,9 +47,10 @@
 			return;
 		}
 
-		await JsRuntime.InvokeVoidAsync("loadAudio", audioUrl);
+		string audioDurationString = await JsRuntime.InvokeAsync<string>("loadAudio", audioUrl);
+		int audioDuration = Int32.Parse(audioDurationString);
 
-		GameModel = new GameManager(containerDimensions, JsRuntime);
+		GameModel = new GameManager(containerDimensions, audioDuration, JsRuntime);
 		GameModel.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 

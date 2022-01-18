@@ -22,13 +22,13 @@ namespace audiovisual_pong.Models
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
 		private AudioData audioData { get; set; }
 
-		public GameManager(Dimensions containerDimensions, IJSRuntime JSRuntime) {
+		public GameManager(Dimensions containerDimensions, int audioDuration, IJSRuntime JSRuntime) {
 			this.containerDimensions = containerDimensions;
 
 			// default time
 			this.audioData = new AudioData(JSRuntime);
-			this.TimeLeft = 1 * 60;
-			this.TimeTotal = 1 * 60;
+			this.TimeLeft = audioDuration;
+			this.TimeTotal = audioDuration;
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);

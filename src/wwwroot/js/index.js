@@ -50,6 +50,9 @@ window.loadAudio = async (audioUrl) => {
 	})
 
 	configSource()
+
+	const audioDuration = audioBuffer.duration.toFixed(0)
+	return audioDuration
 }
 
 window.playAudio = () => {

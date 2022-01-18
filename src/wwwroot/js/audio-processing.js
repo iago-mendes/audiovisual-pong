@@ -23,15 +23,6 @@ function configSource() {
 	audioSource.connect(audioAnalyser)
 }
 
-window.getWindowDimensions = () => (
-	{
-		x: window.innerWidth,
-		y: window.innerHeight
-	}
-)
-
-window.focusOnElement = (element) => element.focus()
-
 window.loadAudio = async (audioUrl) => {
 	initWebAudioApi()
 	

@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 
 namespace audiovisual_pong.Models
 {
-	public class AudioData {
+	public class AudioDataModel {
 		IJSRuntime JSRuntime { get; set; }
 		public int[] FrequencyData { get; private set; } = new int[0];
 		public int Amplitude { get; private set; } = 0; // 0 - 255
@@ -10,7 +10,7 @@ namespace audiovisual_pong.Models
 		public int MiddleAmplitude { get; private set; } = 0; // 0 - 255
 		public int TrebbleAmplitude { get; private set; } = 0; // 0 - 255
 
-		public AudioData(IJSRuntime JSRuntime) {
+		public AudioDataModel(IJSRuntime JSRuntime) {
 			this.JSRuntime = JSRuntime;
 		}
 		public async Task UpdateAudioData() {

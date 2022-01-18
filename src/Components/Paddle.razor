@@ -3,8 +3,14 @@
 }
 
 @code {
-	[Parameter] public PaddleModel? Model { get; set; }
+	string leftCss => $"left: {Model?.left/15}rem;";
+	string topCss => $"top: {Model?.top/15}rem;";
+	string widthCss => $"width: {(Model?.right - Model?.left)/15}rem;";
+	string heightCss => $"height: {(Model?.bottom - Model?.top)/15}rem;";
+	string colorCss =>
+		$"background-color: rgb({255-AudioData?.BassAmplitude},{255-AudioData?.MiddleAmplitude},{255-AudioData?.TrebbleAmplitude})";
+	string paddleCss => $"{leftCss} {topCss} {widthCss} {heightCss} {colorCss}";
 
-	string paddleCss =>
-		$"left: {Model?.left/15}rem; width: {(Model?.right - Model?.left)/15}rem; top: {Model?.top/15}rem; height: {(Model?.bottom - Model?.top)/15}rem";
+	[Parameter] public PaddleModel? Model { get; set; }
+	[Parameter] public AudioDataModel? AudioData { get; set; }
 }

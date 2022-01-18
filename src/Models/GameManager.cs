@@ -20,13 +20,13 @@ namespace audiovisual_pong.Models
 		private int TimeTotal { get; set; } // seconds
 		private bool areScoresOnDelay = false;
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
-		private AudioData audioData { get; set; }
+		public AudioDataModel AudioData { get; private set; }
 
 		public GameManager(Dimensions containerDimensions, int audioDuration, IJSRuntime JSRuntime) {
 			this.containerDimensions = containerDimensions;
 
 			// default time
-			this.audioData = new AudioData(JSRuntime);
+			this.AudioData = new AudioDataModel(JSRuntime);
 			this.TimeLeft = audioDuration;
 			this.TimeTotal = audioDuration;
 
@@ -124,9 +124,9 @@ namespace audiovisual_pong.Models
 				}
 				MoveObstacles();
 
-				int oldAmplitude = audioData.BassAmplitude;
-				await audioData.UpdateAudioData();
-				int newAmplitude = audioData.BassAmplitude;
+				int oldAmplitude = AudioData.BassAmplitude;
+				await AudioData.UpdateAudioData();
+				int newAmplitude = AudioData.BassAmplitude;
 				HandleSpawnObstacle(newAmplitude - oldAmplitude);
 
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);

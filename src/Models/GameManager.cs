@@ -175,14 +175,12 @@ namespace audiovisual_pong.Models
 
 		private async void TimeLoop() {
 			while (IsRunning && TimeLeft > 0) {
-				if (IsPaused) {
-					await Task.Delay(1000); // 1 s
+				await Task.Delay(1000); // 1 s
+				
+				if (IsPaused)
 					continue;
-				}
 				
 				TimeLeft--;
-
-				await Task.Delay(1000); // 1 s
 			}
 
 			if (IsRunning)
@@ -190,6 +188,10 @@ namespace audiovisual_pong.Models
 		}
 
 		private void HandleSpawnObstacle(int deltaAmplitude) {
+			bool has1SecondElapsed = TimeTotal - TimeLeft >= 1;
+			if (!has1SecondElapsed)
+				return;
+
 			int maxObstaclesCount = 10;
 			int minDeltaAmplitude = 10;
 

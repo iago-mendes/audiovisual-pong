@@ -17,6 +17,13 @@ namespace audiovisual_pong.Models
 			await UpdateFrequencyData();
 			UpdateAmplitude();
 		}
+		public void Reset() {
+			this.FrequencyData = new int[0];
+			this.Amplitude = 0;
+			this.BassAmplitude = 0;
+			this.MiddleAmplitude = 0;
+			this.TrebbleAmplitude = 0;
+		}
 		private async Task UpdateFrequencyData() {
 			string[] frequencyDataString = (await JSRuntime.InvokeAsync<string>("getAudioFrequencyData")).Split(';');
 			this.FrequencyData = new int[frequencyDataString.Length];

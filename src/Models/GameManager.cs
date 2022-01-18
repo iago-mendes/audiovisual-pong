@@ -56,6 +56,7 @@ namespace audiovisual_pong.Models
 
 		private void ResetGameObjects() {
 			this.TimeLeft = this.TimeTotal;
+			this.AudioData.Reset();
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);

@@ -25,26 +25,33 @@ function configSource() {
 }
 
 window.loadAudio = async (audioUrl) => {
-	initWebAudioApi()
+	try {
+		initWebAudioApi()
+
+		await new Promise((resolve, reject) => {
+			const request = new XMLHttpRequest()
+
+			request.open('GET', audioUrl, true)
+			request.responseType = 'arraybuffer'
+			request.onload = async () => {
+				await audioContext.decodeAudioData(request.response)
+				.then(buffer => {
+					audioBuffer = buffer
+					resolve()
+				})
+				.catch(() => reject())
+			}
+
+			request.send()
+		})
+
+		configSource()
 	
-	await new Promise((resolve, reject) => {
-		const request = new XMLHttpRequest()
-
-		request.open('GET', audioUrl, true)
-		request.responseType = 'arraybuffer'
-		request.onload = async () => {
-			const buffer = await audioContext.decodeAudioData(request.response)
-			audioBuffer = buffer
-			resolve()
-		}
-
-		request.send()
-	})
-
-	configSource()
-
-	const audioDuration = audioBuffer.duration.toFixed(0)
-	return audioDuration
+		const audioDuration = audioBuffer.duration.toFixed(0)
+		return audioDuration
+	} catch (error) {
+		return '0'
+	}
 }
 
 window.playAudio = () => {

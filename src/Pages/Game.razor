@@ -49,6 +49,10 @@
 
 		string audioDurationString = await JsRuntime.InvokeAsync<string>("loadAudio", audioUrl);
 		int audioDuration = Int32.Parse(audioDurationString);
+		if (audioDuration == 0) {
+			errorMessage = "Provided audio source is invalid!";
+			return;
+		}
 
 		GameModel = new GameManager(containerDimensions, audioDuration, JsRuntime);
 		GameModel.MainLoopCompleted += (o,e) => StateHasChanged();

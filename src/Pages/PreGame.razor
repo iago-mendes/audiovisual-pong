@@ -48,6 +48,9 @@
 		else if (song != "-1" && url == ""){
 			NavManager.NavigateTo($"/game?audio={song}");
 		}
+		else if (song != "-1" && url != ""){
+			NavManager.NavigateTo($"/game?audio={url}");
+		}
 		else {
 			NavManager.NavigateTo($"/game?audio={url}");
 		}

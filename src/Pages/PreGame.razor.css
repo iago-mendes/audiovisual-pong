@@ -12,9 +12,9 @@
 }
 
 .instructions {
-    padding: 10px;
-    height: 30vh;
-    width: 80vw;
+    padding: 0;
+    /*height: 30vh;
+    width: 80vw;* -- caused major problems*/
     border-radius: 8px;
     font-weight: normal;
     font-size: 1.4rem;
@@ -22,7 +22,7 @@
 
 li {
     list-style-position: outside;
-    list-style-type: counter;
+    list-style-type: counter; /*"\1F44D"; thumbs up sign old: counter (1, 2, 3, 4) */
     margin: 0.33em 0.5em 0.5em 1.5em;
      /*thumbs up sign*/
 }

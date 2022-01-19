@@ -10,7 +10,7 @@ namespace audiovisual_pong.Models
 		public int MiddleAmplitude { get; private set; } = 0; // 0 - 255
 		public int TrebbleAmplitude { get; private set; } = 0; // 0 - 255
 
-		public int MaxFreq {get; private set; } = 0;
+		public double Hue {get; private set; } = 0;
 		public AudioDataModel(IJSRuntime JSRuntime) {
 			this.JSRuntime = JSRuntime;
 		}
@@ -58,7 +58,7 @@ namespace audiovisual_pong.Models
 			int trebbleAmplitude = trebbleAmplitudeSum / (FrequencyData.Length / 3);
 			int amplitude = (bassAmplitude + middleAmplitude + trebbleAmplitude) / 3;
 
-			this.MaxFreq = max_freq;
+			this.Hue = (max_freq*1000)%360;
 			this.BassAmplitude = bassAmplitude;
 			this.MiddleAmplitude = middleAmplitude;
 			this.TrebbleAmplitude = trebbleAmplitude;

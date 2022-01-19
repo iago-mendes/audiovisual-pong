@@ -8,7 +8,7 @@
 	string widthCss => $"width: {(Model?.right - Model?.left)/15}rem;";
 	string heightCss => $"height: {(Model?.bottom - Model?.top)/15}rem;";
 	string colorCss =>
-		$"background-color: hsla({AudioData?.MaxFreq}, 100%, 50%)";
+		$"background-color: hsla({AudioData?.Hue}, 100%, 50%)";
 		//$"background-color: rgb({255-AudioData?.BassAmplitude},{255-AudioData?.MiddleAmplitude},{255-AudioData?.TrebbleAmplitude})";
 	string paddleCss => $"{leftCss} {topCss} {widthCss} {heightCss} {colorCss}";
 

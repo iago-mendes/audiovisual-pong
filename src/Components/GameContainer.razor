@@ -1,10 +1,6 @@
 @inject IJSRuntime JsRuntime
 
 @if (Model != null) {
-	<audio
-		id="game-audio"
-		src="@Model.AudioSrc"
-	/>
 	<Menu Game="Model" />
 	<div class="wall-container">
 		<div
@@ -28,8 +24,8 @@
 			<div class="rect border" />
 
 			<Ball Model="Model.Ball" IsRunning="Model.IsRunning" />
-			<Paddle Model="Model.UserPaddle" />
-			<Paddle Model="Model.ComputerPaddle" />
+			<Paddle Model="@Model.UserPaddle" AudioData="@Model.AudioData" />
+			<Paddle Model="@Model.ComputerPaddle" AudioData="@Model.AudioData" />
 
 			<Score Model="Model.UserScore" side="right" />
 			<Score Model="Model.ComputerScore" side="left" />
@@ -54,8 +50,7 @@
 			Model.StartGame();
 			FocusOnGameContainer();
 
-			await JsRuntime.InvokeVoidAsync("resetAudio", "game-audio");
-			await JsRuntime.InvokeVoidAsync("playAudio", "game-audio");
+			await JsRuntime.InvokeVoidAsync("playAudio");
 		}
 	}
 	void HandleKeyPress(KeyboardEventArgs e)

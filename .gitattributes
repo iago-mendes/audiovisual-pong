@@ -1,0 +1,2 @@
+*.razor linguist-language='C#'
+*.csproj linguist-language='C#'

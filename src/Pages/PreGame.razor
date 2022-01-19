@@ -2,24 +2,57 @@
 @inject NavigationManager NavManager
 
 <div class="container">
-	<h1>Pre-game</h1>
+	<!--<h1>Pre-game</h1>-->
+	<div class="title">
+		<h3>Instructions</h3>
+	</div>
+	<div class="instructions">
+		<ol>
+			<li>Play the classic game Pong with a twist! Destroy any obstacles that appear!</li>
+			<li>Use <i class="far fa-arrow-alt-circle-up blue"></i> and <i class="far fa-arrow-alt-circle-down purple"></i>
+			arrow keys to move the right paddle <span class="blue">up</span> and 
+			<span class="purple">down</span>. </li>
+			<li><span class="red">Stop</span> the game with <i class="fas fa-stop red"></i></li>
+			<li><span class="green">Pause</span> the game with <i class="fas fa-pause green"></i></li>
+		</ol>
+		
+	</div>
 	<div class="select-menu">
 		<!--<label class="select-label">Selected Song: @song</label>-->
 		<select class="form-control" @bind="song">
-			<option selected disabled value="-1">--Select a song--</option>
-			<option value ="Song 1">Song 1</option>
-			<option value="Song 2">Song 2</option>
-			<option value="Song 3">Song 3</option>
-			<option value="Song 4">Song 4</option>
+			<option value="-1">Select a song</option>
+			<option value ="/audio/bensound-scifi.mp3">Bensound SciFi</option>
+			<option value ="/audio/north-oakland-extasy.mp3">North Oakland Extasy - Squadda B</option>
 		</select>
 	</div>
-	<button @onclick="handleContinueClick">CONTINUE</button>
+	<div class="outer">
+		<p class="label">Or input a url for a song</p>
+		<input class="txt" @bind="url">
+	</div>
+	<div class="align-right">
+	@if (song != "-1" || url != "") {
+		<button @onclick="handleContinueClick">CONTINUE</button>
+	}
+	</div>
 </div>
 
 @code {
+	string song = "-1";
+	string url = "";
+
+	//if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) return
+
 	void handleContinueClick() {
-		// temporary url to mimic song selection
-		NavManager.NavigateTo("/game?audio=/audio/bensound-scifi.mp3");
+		if (song == "-1" && url == "")
+			return;
+		else if (song != "-1" && url == ""){
+			NavManager.NavigateTo($"/game?audio={song}");
+		}
+		else if (song != "-1" && url != ""){
+			NavManager.NavigateTo($"/game?audio={url}");
+		}
+		else {
+			NavManager.NavigateTo($"/game?audio={url}");
+		}
 	}
-	string? song;
 }

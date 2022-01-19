@@ -1,14 +1,18 @@
 using System;
-using System.IO;
-using CSCore;
-using CSCore.DSP;
-using CSCore.Codecs;
+using NAudio;
+using NAudio.dsp;
 
 namespace audiovisual_pong.Models
 {
 	public class FrequencyModel {
 
 		public FrequencyModel() {
+			int fftLength = 2048;
+			Complex[] buffer = new Complex[fftLength];
+			Console.WriteLine($"{buffer.GetType()}");
+
+
+			/*
 			ISampleSource source= CodecFactory.Instance.GetCodec(@"https://dcs.megaphone.fm/VMP8879973005.mp3
 ").ToSampleSource();
 			FftProvider provider = new FftProvider(source.WaveFormat.Channels, FftSize.Fft2048);
@@ -17,6 +21,7 @@ namespace audiovisual_pong.Models
 			{
 				Console.WriteLine(buffer);
 			}
+			*/
 		}
 		
 	}

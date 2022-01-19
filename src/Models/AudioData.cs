@@ -10,7 +10,7 @@ namespace audiovisual_pong.Models
 		public int MiddleAmplitude { get; private set; } = 0; // 0 - 255
 		public int TrebbleAmplitude { get; private set; } = 0; // 0 - 255
 
-		public double Hue {get; private set; } = 0;
+		public double Hue {get; private set; } = 180;
 		public AudioDataModel(IJSRuntime JSRuntime) {
 			this.JSRuntime = JSRuntime;
 		}

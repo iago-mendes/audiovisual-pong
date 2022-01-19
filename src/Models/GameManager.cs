@@ -1,3 +1,5 @@
+using Microsoft.JSInterop;
+
 namespace audiovisual_pong.Models
 {
 	public class GameManager
@@ -18,17 +20,15 @@ namespace audiovisual_pong.Models
 		private int TimeTotal { get; set; } // seconds
 		private bool areScoresOnDelay = false;
 		public List<ObstacleModel> ObstacleList { get; private set; } = new List<ObstacleModel>();
-		public string AudioSrc { get; private set; }
+		public AudioDataModel AudioData { get; private set; }
 
-		public GameManager(Dimensions containerDimensions, string audioSrc, string audioDataUri) {
+		public GameManager(Dimensions containerDimensions, int audioDuration, IJSRuntime JSRuntime) {
 			this.containerDimensions = containerDimensions;
 
-			this.AudioSrc = audioSrc;
-			// Uri audioUri = new Uri(audioSrc);
-			Console.WriteLine(audioDataUri);
 			// default time
-			this.TimeLeft = 1 * 60;
-			this.TimeTotal = 1 * 60;
+			this.AudioData = new AudioDataModel(JSRuntime);
+			this.TimeLeft = audioDuration;
+			this.TimeTotal = audioDuration;
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
@@ -56,6 +56,7 @@ namespace audiovisual_pong.Models
 
 		private void ResetGameObjects() {
 			this.TimeLeft = this.TimeTotal;
+			this.AudioData.Reset();
 
 			Ball = new BallModel(containerDimensions);
 			Wall = new WallModel(containerDimensions.y);
@@ -124,6 +125,11 @@ namespace audiovisual_pong.Models
 				}
 				MoveObstacles();
 
+				int oldAmplitude = AudioData.BassAmplitude;
+				await AudioData.UpdateAudioData();
+				int newAmplitude = AudioData.BassAmplitude;
+				HandleSpawnObstacle(newAmplitude - oldAmplitude);
+
 				MainLoopCompleted?.Invoke(this, EventArgs.Empty);
 				await Task.Delay(90); // 90 ms
 			}
@@ -170,25 +176,29 @@ namespace audiovisual_pong.Models
 
 		private async void TimeLoop() {
 			while (IsRunning && TimeLeft > 0) {
-				if (IsPaused) {
-					await Task.Delay(1000); // 1 s
+				await Task.Delay(1000); // 1 s
+				
+				if (IsPaused)
 					continue;
-				}
 				
 				TimeLeft--;
-
-				int timeElapsed = TimeTotal - TimeLeft;
-				if (timeElapsed % 5 == 0) // new obstacle every 15min
-					SpawnObstacle();
-
-				await Task.Delay(1000); // 1 s
 			}
 
 			if (IsRunning)
 				StopGame();
 		}
 
-		private void SpawnObstacle() {
+		private void HandleSpawnObstacle(int deltaAmplitude) {
+			bool has1SecondElapsed = TimeTotal - TimeLeft >= 1;
+			if (!has1SecondElapsed)
+				return;
+
+			int maxObstaclesCount = 10;
+			int minDeltaAmplitude = 10;
+
+			if (ObstacleList.Count >= maxObstaclesCount || deltaAmplitude < minDeltaAmplitude)
+				return;
+
 			double width = 100;
 			double height = 150;
 

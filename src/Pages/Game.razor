@@ -24,6 +24,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
+		// get dimensions
 		Dimensions windowDimensions = await JsRuntime.InvokeAsync<Dimensions>("getWindowDimensions");
 		Dimensions containerDimensions = new Dimensions(windowDimensions.x * 0.9, windowDimensions.y * 0.8); // 90% x 80%
 
@@ -32,22 +33,24 @@
 			return;
 		}
 
+		// get audio url
 		Uri uri = NavManager.ToAbsoluteUri(NavManager.Uri);
 		List<string> queries = new List<string>(uri.Query.Split('&'));
 		string audioQueryMatch = "?audio=";
 		string? audioQuery = queries.Find(delegate(string query) {
 			return query.Contains(audioQueryMatch);
 		});
-		string audioSrc = audioQuery != null ? audioQuery.Substring(audioQueryMatch.Length) : "";
+		string audioUrl = audioQuery != null ? audioQuery.Substring(audioQueryMatch.Length) : "";
 
-		if (audioSrc == "") {
-			errorMessage = "No audio source was provided!";
+		if (audioUrl == "") {
+			errorMessage = "No audio was provided!";
 			return;
 		}
 
-		string audioDataUri = await JsRuntime.InvokeAsync<string>("getFileAsDataUri", audioSrc);
+		string audioDurationString = await JsRuntime.InvokeAsync<string>("loadAudio", audioUrl);
+		int audioDuration = Int32.Parse(audioDurationString);
 
-		GameModel = new GameManager(containerDimensions, audioSrc, audioDataUri);
+		GameModel = new GameManager(containerDimensions, audioDuration, JsRuntime);
 		GameModel.MainLoopCompleted += (o,e) => StateHasChanged();
 	}
 

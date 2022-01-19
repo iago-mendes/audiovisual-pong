@@ -17,6 +17,10 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+		<!--Fontawesome icons-->
+
+		<script src="https://kit.fontawesome.com/38ea720b67.js" crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<div id="app">
@@ -27,37 +31,9 @@
 			</div>
 		</div>
 		<script src="_framework/blazor.webassembly.js"></script>
-		<script> 
-			window.getWindowDimensions = () => (
-				{
-					x: window.innerWidth,
-					y: window.innerHeight
-				}
-			)
-			window.focusOnElement = (element) => element.focus()
-			window.playAudio = (elementId) => document.getElementById(elementId).play()
-			window.pauseAudio = (elementId) => document.getElementById(elementId).pause()
-			window.resetAudio = (elementId) => document.getElementById(elementId).currentTime = 0
-			window.getFileAsDataUri = async (fileUrl) => {
-				let dataUri = ''
+		<script src="js/utils.js"></script>
+		<script src="js/audio-processing.js"></script>
 
-				await new Promise((resolve, reject) => {
-					fetch(fileUrl)
-						.then(res => res.blob())
-						.then(res => {
-							const reader = new FileReader()
-
-							reader.addEventListener("load", function () {
-								dataUri = this.result
-								resolve()
-							}, false)
-			
-							reader.readAsDataURL(res)
-						})
-				})
-
-				return dataUri
-			}
-		</script>
+		
 	</body>
 </html>

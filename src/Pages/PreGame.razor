@@ -7,10 +7,14 @@
 		<h3>Instructions</h3>
 	</div>
 	<div class="instructions">
-		<p>Play pong with a twist! Destroy any obstacles that appear!
-		Use <i class="far fa-arrow-alt-circle-up blue"></i> and <i class="far fa-arrow-alt-circle-down purple"></i>
-		arrow keys to move the right paddle <span class="blue">up</span> and <span class="purple">down</span>. <span class="red">Stop</span> the game with <i class="fas fa-stop red"></i> 
-		and <span class="green">pause</span> the game with <i class="fas fa-pause green"></i> </p>
+		<ul>
+			<li>Play the classic game Pong with a twist! Destroy any obstacles that appear!</li>
+			<li>Use <i class="far fa-arrow-alt-circle-up blue"></i> and <i class="far fa-arrow-alt-circle-down purple"></i>
+			arrow keys to move the right paddle <span class="blue">up</span> and 
+			<span class="purple">down</span>. </li>
+			<li><span class="red">Stop</span> the game with <i class="fas fa-stop red"></i></li>
+			<li><span class="green">Pause</span> the game with <i class="fas fa-pause green"></i></li>
+		</ul>
 		
 	</div>
 	<div class="select-menu">
@@ -35,7 +39,7 @@
 	string song = "-1";
 	string url = "Input a url for a song";
 
-	//if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) return true;
+	//if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) return
 
 	void handleContinueClick() {
 		if (song == "-1" || url == "Input a url for a song" || url == "")

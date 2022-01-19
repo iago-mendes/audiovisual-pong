@@ -10,6 +10,7 @@ namespace audiovisual_pong.Models
 		public int MiddleAmplitude { get; private set; } = 0; // 0 - 255
 		public int TrebbleAmplitude { get; private set; } = 0; // 0 - 255
 
+		public int MaxFreq {get; private set; } = 0;
 		public AudioDataModel(IJSRuntime JSRuntime) {
 			this.JSRuntime = JSRuntime;
 		}
@@ -40,6 +41,7 @@ namespace audiovisual_pong.Models
 			int bassAmplitudeSum = 0;
 			int middleAmplitudeSum = 0;
 			int trebbleAmplitudeSum = 0;
+			int max_freq = 0;
 			for (int i = 0; i < FrequencyData.Length; i++) {
 				if (i < FrequencyData.Length/3)
 					bassAmplitudeSum += FrequencyData[i];
@@ -47,6 +49,8 @@ namespace audiovisual_pong.Models
 					middleAmplitudeSum += FrequencyData[i];
 				else
 					trebbleAmplitudeSum += FrequencyData[i];
+				if (FrequencyData[i] > FrequencyData[max_freq])
+					max_freq = i;
 			}
 			
 			int bassAmplitude = bassAmplitudeSum / (FrequencyData.Length / 3);
@@ -54,6 +58,7 @@ namespace audiovisual_pong.Models
 			int trebbleAmplitude = trebbleAmplitudeSum / (FrequencyData.Length / 3);
 			int amplitude = (bassAmplitude + middleAmplitude + trebbleAmplitude) / 3;
 
+			this.MaxFreq = max_freq;
 			this.BassAmplitude = bassAmplitude;
 			this.MiddleAmplitude = middleAmplitude;
 			this.TrebbleAmplitude = trebbleAmplitude;

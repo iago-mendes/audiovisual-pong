@@ -8,6 +8,7 @@
     background-color: var(--color-background);
     font-size: 2rem;
     grid-gap: 20px;
+    padding:30px;
     
 }
 
@@ -76,8 +77,18 @@ li .purple {
 }
 
 
-.outer label {
-    font-size: 18px;
+.label{
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    font-style:italic;
+    color: var(--color-cyan);
+}
+
+.outer input {
+    margin: 0;
+    padding: 0;
+    text-align: left;
 }
 
 .txt {

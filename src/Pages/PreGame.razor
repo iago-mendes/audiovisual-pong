@@ -26,10 +26,11 @@
 		</select>
 	</div>
 	<div class="outer">
+		<p class="label">Or input a url for a song</p>
 		<input class="txt" @bind="url">
 	</div>
 	<div class="align-right">
-	@if (song != "-1" || url != "Input a url for a song" || url == "") {
+	@if (song != "-1" || url != "") {
 		<button @onclick="handleContinueClick">CONTINUE</button>
 	}
 	</div>
@@ -37,15 +38,18 @@
 
 @code {
 	string song = "-1";
-	string url = "Input a url for a song";
+	string url = "";
 
 	//if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) return
 
 	void handleContinueClick() {
-		if (song == "-1" || url == "Input a url for a song" || url == "")
+		if (song == "-1" && url == "")
 			return;
-		else{
+		else if (song != "-1" && url == ""){
 			NavManager.NavigateTo($"/game?audio={song}");
+		}
+		else {
+			NavManager.NavigateTo($"/game?audio={url}");
 		}
 	}
 }

@@ -19,6 +19,7 @@
     border-radius: 8px;
     font-weight: normal;
     font-size: 1.4rem;
+    color: #D1D0D3;
 }
 
 li {
@@ -98,7 +99,7 @@ li .purple {
     border-right: none;
     border-left: none;
     border-top: none;
-    border-bottom: 2px solid var(--color-foreground);;
+    border-bottom: 1px solid var(--color-cyan);
     text-align: center;
     font-size: 1.0rem;
     color: white;
@@ -114,10 +115,10 @@ button {
     padding:10px;
     font-size: 1.0rem;
     font-weight: bold;
-    border-radius: 8px;
-    color: var(--color-foreground);
+    border-radius: 4px;
+    color: var(--color-cyan);
     width: 17vw;
-    border: 1px solid var(--color-foreground);
+    border: 1px solid var(--color-cyan);
     background-color: var(--color-background);
     transition-duration: 0.4s;
     text-align: center;
@@ -125,7 +126,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--color-foreground);
+    background-color: var(--color-cyan);
     color: var(--color-background);
 }
 
